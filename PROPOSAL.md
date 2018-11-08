@@ -8,7 +8,7 @@ As for a more challenging extension of the project, I would like to implement a 
 
 Although I do not much have experience writing software of this scale, I do have much experience in what a rhythm game looks and feels like (from my childhood), and therefore have a relatively clear picture of the components that I need and the short-term goals I should set for myself in implementing this project.
 
-Links to documentation of libraries and additional resources:
+## Links to documentation of libraries and additional resources:
   * https://aubio.org/
   * https://openframeworks.cc/documentation/sound/
   * https://openframeworks.cc/documentation/gl/
