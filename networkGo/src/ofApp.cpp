@@ -12,7 +12,7 @@ void ofApp::update(){
 
 //--------------------------------------------------------------
 void ofApp::draw(){
-
+	drawGoBoard();
 }
 
 //--------------------------------------------------------------
@@ -63,6 +63,27 @@ void ofApp::windowResized(int w, int h){
 //--------------------------------------------------------------
 void ofApp::gotMessage(ofMessage msg){
 
+}
+
+void ofApp::drawGoBoard()
+{
+	ofSetColor(kBoardColorRed, kBoardColorGreen, kBoardColorBlue);
+	ofDrawRectangle(kSquareSize, kSquareSize, kSquareSize*(1 + game_engine.getBoardSize()), 
+		kSquareSize*(1 + game_engine.getBoardSize()));
+	
+	//Draws grid
+	ofSetColor(0, 0, 0);
+	for (int i = 0; i < game_engine.getBoardSize(); i++) {
+		ofDrawLine(kSquareSize + (i + 1) * kSquareSize, 2 * kSquareSize, 
+			kSquareSize + (i + 1) * kSquareSize, (game_engine.getBoardSize() + 1) * kSquareSize);
+
+		ofDrawLine(2 * kSquareSize, kSquareSize + (i + 1) * kSquareSize,
+			(game_engine.getBoardSize() + 1) * kSquareSize, kSquareSize + (i + 1) * kSquareSize);
+	}
+}
+
+void ofApp::drawBoardState()
+{
 }
 
 //--------------------------------------------------------------

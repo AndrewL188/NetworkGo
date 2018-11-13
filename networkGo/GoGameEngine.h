@@ -5,7 +5,7 @@
 
 class GoGameEngine {
 private:
-	const int kBoardSize = 9;
+	static const int kBoardSize = 9;
 	const int kBlackPlayer = 1;
 	const int kWhitePlayer = 2;
 	int playerNumber;
@@ -31,6 +31,8 @@ public:
 	@return bool that indicates whether or not
 	*/
 	bool checkLegalMove(int player, int row, int col);
+
+	int getBoardSize() { return kBoardSize; }
 
 };
 
