@@ -5,16 +5,20 @@
 
 class GoGameEngine {
 private:
-	static const int kBoardSize = 9;
+	const int kDefaultBoardSize = 9;
 	const int kEmpty = 0;
 	const int kBlackPlayer = 1;
 	const int kWhitePlayer = 2;
+	
 	int current_player = kBlackPlayer;
+	int board_size_;
+
 	std::vector<std::vector<int> > board_state_;
 
 public:
-	//Constructor that fills empty board state vector with 0's
+	//Constructors that fills empty board state vector with 0's
 	GoGameEngine();
+	GoGameEngine(int board_size);
 
 	/*
 	Modifies board_state_ vector
@@ -34,7 +38,8 @@ public:
 	bool checkLegalMove(int row, int col);
 
 	//Getter methods to access various aspects of the game
-	int getBoardSize() { return kBoardSize; }
+	int getDefaultBoardSize() { return kDefaultBoardSize; }
+	int getBoardSize() { return board_size_; }
 	std::vector<std::vector<int> > getBoardState() { return board_state_; }
 
 };

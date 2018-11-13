@@ -1,5 +1,8 @@
 #pragma once
 
+#include <cstdlib>
+#include <utility>
+
 #include "ofMain.h"
 #include "ofxGui.h"
 #include "C:/Users/Andrew Luo/Downloads/of_v0.10.0_vs2017_release/of_v0.10.0_vs2017_release/apps/myApps/finalproject-AndrewL188/networkGo/GoGameEngine.h"
@@ -20,7 +23,8 @@ class ofApp : public ofBaseApp{
 		const int kWhiteStoneBlue = 255;
 
 		const int kSquareSize = 80;
-		GoGameEngine game_engine;
+		const int kStoneSize = 24;
+		GoGameEngine game_engine_;
 
 	public:
 		void setup();
@@ -45,7 +49,10 @@ class ofApp : public ofBaseApp{
 		ofxButton resign_button_;
 
 		//Helper methods to render parts of the go game on screen
+
+		//Draws the go board
 		void drawGoBoard();
+		//Renders black and white stones onto the board based on the board state of the game engine
 		void drawBoardState();
 		
 };

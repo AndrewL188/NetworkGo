@@ -10,4 +10,11 @@ int main( ){
 	// pass in width and height too:
 	ofRunApp(new ofApp());
 
+	/*GoGameEngine game_engine;
+	for (int i = 0; i < game_engine.getBoardSize(); i++) {
+		std::cout << game_engine.getBoardState()[0][i] << "a ";
+	}*/
+
+
+
 }

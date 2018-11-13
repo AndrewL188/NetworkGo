@@ -7,8 +7,18 @@ using namespace std;
 
 GoGameEngine::GoGameEngine()
 {
-	vector<int> temp(kBoardSize, kEmpty);
-	for (int i = 0; i < kBoardSize; i++) {
+	board_size_ = kDefaultBoardSize;
+	vector<int> temp(board_size_, kBlackPlayer);
+	for (int i = 0; i < board_size_; i++) {
+		board_state_.push_back(temp);
+	}
+}
+
+GoGameEngine::GoGameEngine(int board_size)
+{
+	board_size_ = board_size;
+	vector<int> temp(board_size_, kBlackPlayer);
+	for (int i = 0; i < board_size_; i++) {
 		board_state_.push_back(temp);
 	}
 }
@@ -24,7 +34,7 @@ void GoGameEngine::playMove(int row, int col)
 
 bool GoGameEngine::checkLegalMove(int row, int col)
 {
-	if (row >= kBoardSize || col >= kBoardSize) {
+	if (row >= board_size_ || col >= board_size_) {
 		return false;
 	}
 	//Checks if stone has already been played there
