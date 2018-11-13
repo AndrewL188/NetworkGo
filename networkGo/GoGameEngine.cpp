@@ -8,7 +8,7 @@ using namespace std;
 GoGameEngine::GoGameEngine()
 {
 	board_size_ = kDefaultBoardSize;
-	vector<int> temp(board_size_, kBlackPlayer);
+	vector<int> temp(board_size_, kEmpty);
 	for (int i = 0; i < board_size_; i++) {
 		board_state_.push_back(temp);
 	}
@@ -17,7 +17,7 @@ GoGameEngine::GoGameEngine()
 GoGameEngine::GoGameEngine(int board_size)
 {
 	board_size_ = board_size;
-	vector<int> temp(board_size_, kBlackPlayer);
+	vector<int> temp(board_size_, kEmpty);
 	for (int i = 0; i < board_size_; i++) {
 		board_state_.push_back(temp);
 	}

@@ -55,6 +55,9 @@
     <ClCompile Include="GoGameEngine.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="GameEngineTester.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="src">
