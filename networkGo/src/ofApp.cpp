@@ -88,6 +88,21 @@ void ofApp::drawGoBoard()
 
 void ofApp::drawBoardState()
 {
+	for (int i = 0; i < game_engine.getBoardSize(); i++) {
+		for (int j = 0; j < game_engine.getBoardSize(); i++) {
+			if (game_engine.getBoardState()[i][j] == kBlackPlayer) {
+				//Renders a black stone
+				ofSetColor(kBlackStoneRed, kBlackStoneGreen, kBlackStoneBlue);
+				ofDrawCircle(kSquareSize + (i + 1) * kSquareSize, kSquareSize + (j + 1) * kSquareSize, 10);
+			}
+			else if (game_engine.getBoardState()[i][j] == kWhitePlayer) {
+				//Renders a white stone
+				ofSetColor(kWhiteStoneRed, kWhiteStoneGreen, kWhiteStoneBlue);
+				ofDrawCircle(kSquareSize + (i + 1) * kSquareSize, kSquareSize + (j + 1) * kSquareSize, 10);
+			}
+
+		}
+	}
 }
 
 //--------------------------------------------------------------
