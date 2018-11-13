@@ -1,7 +1,9 @@
 #pragma once
 
 #include "ofMain.h"
+#include "ofxGui.h"
 #include "C:/Users/Andrew Luo/Downloads/of_v0.10.0_vs2017_release/of_v0.10.0_vs2017_release/apps/myApps/finalproject-AndrewL188/networkGo/GoGameEngine.h"
+
 
 class ofApp : public ofBaseApp{
 	private:
@@ -27,6 +29,11 @@ class ofApp : public ofBaseApp{
 		void windowResized(int w, int h);
 		void dragEvent(ofDragInfo dragInfo);
 		void gotMessage(ofMessage msg);
+
+		//GUI elements
+		ofxPanel gui_;
+		ofxButton pass_button_;
+		ofxButton resign_button_;
 
 		//Helper methods to render parts of the go game on screen
 		void drawGoBoard();
