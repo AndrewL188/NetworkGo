@@ -78,11 +78,11 @@ void ofApp::drawGoBoard()
 	//Draws grid
 	ofSetColor(0, 0, 0);
 	for (int i = 0; i < game_engine_.getBoardSize(); i++) {
-		ofDrawLine(kSquareSize + (i + 1) * kSquareSize, 2 * kSquareSize, 
-			kSquareSize + (i + 1) * kSquareSize, (game_engine_.getBoardSize() + 1) * kSquareSize);
+		ofDrawLine(kBoardXCoordinate + (i + 1) * kSquareSize, kBoardYCoordinate + kSquareSize, 
+			kBoardXCoordinate + (i + 1) * kSquareSize, kBoardYCoordinate + game_engine_.getBoardSize() * kSquareSize);
 
-		ofDrawLine(2 * kSquareSize, kSquareSize + (i + 1) * kSquareSize,
-			(game_engine_.getBoardSize() + 1) * kSquareSize, kSquareSize + (i + 1) * kSquareSize);
+		ofDrawLine(kBoardXCoordinate + kSquareSize, kBoardYCoordinate + (i + 1) * kSquareSize,
+			kBoardXCoordinate + game_engine_.getBoardSize() * kSquareSize, kBoardYCoordinate + (i + 1) * kSquareSize);
 	}
 }
 
@@ -102,12 +102,12 @@ void ofApp::drawBoardState()
 			if (game_engine_.getBoardState()[i][j] == kBlackPlayer) {
 				//Renders a black stone
 				ofSetColor(kBlackStoneRed, kBlackStoneGreen, kBlackStoneBlue);
-				ofDrawCircle(kSquareSize + (i + 1) * kSquareSize, kSquareSize + (j + 1) * kSquareSize, kStoneSize);
+				ofDrawCircle(kBoardXCoordinate + (i + 1) * kSquareSize, kBoardYCoordinate + (j + 1) * kSquareSize, kStoneSize);
 			}
 			else if (game_engine_.getBoardState()[i][j] == kWhitePlayer) {
 				//Renders a white stone
 				ofSetColor(kWhiteStoneRed, kWhiteStoneGreen, kWhiteStoneBlue);
-				ofDrawCircle(kSquareSize + (i + 1) * kSquareSize, kSquareSize + (j + 1) * kSquareSize, kStoneSize);
+				ofDrawCircle(kBoardXCoordinate + (i + 1) * kSquareSize, kBoardYCoordinate + (j + 1) * kSquareSize, kStoneSize);
 			}
 		}
 	}

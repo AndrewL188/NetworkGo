@@ -22,8 +22,10 @@ class ofApp : public ofBaseApp{
 		const int kWhiteStoneGreen = 255;
 		const int kWhiteStoneBlue = 255;
 
+		const int kBoardXCoordinate = 80;
+		const int kBoardYCoordinate = 80;
 		const int kSquareSize = 80;
-		const int kStoneSize = 24;
+		const int kStoneSize = 27;
 		GoGameEngine game_engine_;
 
 	public:
