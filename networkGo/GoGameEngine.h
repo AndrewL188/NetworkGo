@@ -10,7 +10,7 @@ private:
 	const int kBlackPlayer = 1;
 	const int kWhitePlayer = 2;
 	
-	int current_player = kBlackPlayer;
+	int current_player_ = kBlackPlayer;
 	int board_size_;
 
 	std::vector<std::vector<int> > board_state_;

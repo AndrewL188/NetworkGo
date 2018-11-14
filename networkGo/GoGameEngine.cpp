@@ -8,10 +8,11 @@ using namespace std;
 GoGameEngine::GoGameEngine()
 {
 	board_size_ = kDefaultBoardSize;
-	vector<int> temp(board_size_, kBlackPlayer);
+	vector<int> temp(board_size_, kEmpty);
 	for (int i = 0; i < board_size_; i++) {
 		board_state_.push_back(temp);
 	}
+
 }
 
 GoGameEngine::GoGameEngine(int board_size)
@@ -26,15 +27,15 @@ GoGameEngine::GoGameEngine(int board_size)
 void GoGameEngine::playMove(int row, int col)
 {
 	if (checkLegalMove(row, col)) {
-		board_state_[row][col] = current_player;
+		board_state_[row][col] = current_player_;
 		//Sets current_player to opposite color
-		(current_player == kBlackPlayer) ? kWhitePlayer : kBlackPlayer;
+		current_player_ = (current_player_ == kBlackPlayer) ? kWhitePlayer : kBlackPlayer;
 	}
 }
 
 bool GoGameEngine::checkLegalMove(int row, int col)
 {
-	if (row >= board_size_ || col >= board_size_) {
+	if (row >= board_size_ || col >= board_size_ || row < 0 || col < 0) {
 		return false;
 	}
 	//Checks if stone has already been played there

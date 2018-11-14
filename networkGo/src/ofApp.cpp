@@ -36,11 +36,26 @@ void ofApp::mouseMoved(int x, int y ){
 
 //--------------------------------------------------------------
 void ofApp::mouseDragged(int x, int y, int button){
-
+	
 }
 
 //--------------------------------------------------------------
 void ofApp::mousePressed(int x, int y, int button){
+	//If the mouse is not on the board, clicking does nothing
+	if (x < kBoardXCoordinate + kSquareSize / 2 || x > kBoardXCoordinate + game_engine_.getBoardSize() * kSquareSize + kSquareSize / 2 ||
+		y < kBoardYCoordinate + kSquareSize / 2 || y > kBoardYCoordinate + game_engine_.getBoardSize() * kSquareSize + kSquareSize / 2) {
+		return;
+	}
+	//Calculates the indicies of where user wants to play on the board
+	double board_coord_x = ((double)(x - kBoardXCoordinate - kSquareSize)) / kSquareSize;
+	double board_coord_y = ((double)(y - kBoardXCoordinate - kSquareSize)) / kSquareSize;
+	int board_coord_x_int = (int)round(board_coord_x);
+	int board_coord_y_int = (int)round(board_coord_y);
+	
+
+	game_engine_.playMove(board_coord_x_int, board_coord_y_int);
+	//game_engine_.playMove(0, 4);
+	
 
 }
 
@@ -88,15 +103,6 @@ void ofApp::drawGoBoard()
 
 void ofApp::drawBoardState()
 {
-	/*ofSetColor(0, 0, 0);
-	ofDrawCircle(160, 160, 30);*/
-	/*for (int i = 0; i < game_engine_.getBoardSize(); i++) {
-		for (int j = 0; j < game_engine_.getBoardSize(); j++) {
-			if (game_engine_.getBoardState()[i][j] == kBlackPlayer) {
-				ofDrawCircle(kSquareSize + (i + 1)*kSquareSize, kSquareSize + (j + 1)*kSquareSize, 30);
-			}
-		}
-	}*/
 	for (int i = 0; i < game_engine_.getBoardSize(); i++) {
 		for (int j = 0; j < game_engine_.getBoardSize(); j++) {
 			if (game_engine_.getBoardState()[i][j] == kBlackPlayer) {
