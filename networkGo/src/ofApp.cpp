@@ -65,7 +65,7 @@ void ofApp::resignButtonPressed() {
 }
 
 void ofApp::passButtonPressed() {
-
+	game_engine_.pass();
 }
 
 //--------------------------------------------------------------

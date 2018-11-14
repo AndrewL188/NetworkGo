@@ -11,6 +11,7 @@ private:
 	const int kWhitePlayer = 2;
 	
 	int current_player_ = kBlackPlayer;
+	int pass_counter_ = 0;
 	int board_size_;
 
 	std::vector<std::vector<int> > board_state_;
@@ -29,13 +30,19 @@ public:
 	void playMove(int row, int col);
 
 	/*
+	Called when player opts to pass rather than play a move on the board. Gives turn to opponent. If both players
+	pass consecutively, the game is over and will be scored.
+	*/
+	void pass();
+
+	/*
 	Helper method for playMove function. Checks whether or not the move a player intends to play is legal or not.
 	@param player - The number of the player (black or white represented by the numbers 1 and 2, respectively)
 	@param row - Row that player wishes to play in
 	@param col - Column that player wishes to play in
 	@return bool that indicates whether or not
 	*/
-	bool checkLegalMove(int row, int col);
+	bool LegalMove(int row, int col);
 
 	//Getter methods to access various aspects of the game
 	int getDefaultBoardSize() { return kDefaultBoardSize; }

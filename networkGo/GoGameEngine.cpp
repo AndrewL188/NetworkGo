@@ -26,14 +26,23 @@ GoGameEngine::GoGameEngine(int board_size)
 
 void GoGameEngine::playMove(int row, int col)
 {
-	if (checkLegalMove(row, col)) {
-		board_state_[row][col] = current_player_;
-		//Sets current_player to opposite color
-		current_player_ = (current_player_ == kBlackPlayer) ? kWhitePlayer : kBlackPlayer;
+	if (!LegalMove(row, col)) {
+		return;
 	}
+
+	board_state_[row][col] = current_player_;
+	//Sets current_player to opposite color and pass_counter_ back to 0 (since passes must be consecutive)
+	current_player_ = (current_player_ == kBlackPlayer) ? kWhitePlayer : kBlackPlayer;
+	pass_counter_ = 0;
 }
 
-bool GoGameEngine::checkLegalMove(int row, int col)
+void GoGameEngine::pass()
+{
+	current_player_ = (current_player_ == kBlackPlayer) ? kWhitePlayer : kBlackPlayer;
+	pass_counter_++;
+}
+
+bool GoGameEngine::LegalMove(int row, int col)
 {
 	if (row >= board_size_ || col >= board_size_ || row < 0 || col < 0) {
 		return false;
