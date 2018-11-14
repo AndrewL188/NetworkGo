@@ -2,6 +2,10 @@
 
 //--------------------------------------------------------------
 void ofApp::setup(){
+	//Adding listeners to buttons
+	pass_button_.addListener(this, &ofApp::passButtonPressed);
+	resign_button_.addListener(this, &ofApp::resignButtonPressed);
+	
 	gui_.setup();
 	gui_.add(pass_button_.setup("Pass",200,40));
 	gui_.add(resign_button_.setup("Resign",200,40));
@@ -54,8 +58,13 @@ void ofApp::mousePressed(int x, int y, int button){
 	
 
 	game_engine_.playMove(board_coord_x_int, board_coord_y_int);
-	//game_engine_.playMove(0, 4);
-	
+}
+
+void ofApp::resignButtonPressed() {
+
+}
+
+void ofApp::passButtonPressed() {
 
 }
 
@@ -83,6 +92,7 @@ void ofApp::windowResized(int w, int h){
 void ofApp::gotMessage(ofMessage msg){
 
 }
+
 
 void ofApp::drawGoBoard()
 {

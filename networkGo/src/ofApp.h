@@ -50,11 +50,26 @@ class ofApp : public ofBaseApp{
 		ofxButton pass_button_;
 		ofxButton resign_button_;
 
-		//Helper methods to render parts of the go game on screen
+		/*
+		Method that runs when the resign button is pressed. Will end the game and indicate the winner
+		*/
+		void resignButtonPressed();
 
+		/*
+		Method that runs when the pass button is pressed. Passes the player's turn to the other player without making
+		a move
+		*/
+		void passButtonPressed();
+
+
+		//Helper methods to render parts of the go game on screen
+		/*
 		//Draws the go board
+		*/
 		void drawGoBoard();
-		//Renders black and white stones onto the board based on the board state of the game engine
+		/*
+		Renders black and white stones onto the board based on the board state of the game engine
+		*/
 		void drawBoardState();
 		
 };
