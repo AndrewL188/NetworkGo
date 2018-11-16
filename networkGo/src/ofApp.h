@@ -5,7 +5,7 @@
 
 #include "ofMain.h"
 #include "ofxGui.h"
-#include "C:/Users/Andrew Luo/Downloads/of_v0.10.0_vs2017_release/of_v0.10.0_vs2017_release/apps/myApps/finalproject-AndrewL188/networkGo/GoGameEngine.h"
+#include "GoGameEngine.h"
 
 
 class ofApp : public ofBaseApp{

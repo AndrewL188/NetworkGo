@@ -9,7 +9,7 @@ private:
 	const int kEmpty = 0;
 	const int kBlackPlayer = 1;
 	const int kWhitePlayer = 2;
-	
+
 	int current_player_ = kBlackPlayer;
 	int pass_counter_ = 0;
 	int board_size_;

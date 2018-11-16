@@ -180,8 +180,8 @@
     <PostBuildEvent />
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="GameEngineTester.cpp" />
-    <ClCompile Include="GoGameEngine.cpp" />
+    <ClCompile Include="src\GameEngineTester.cpp" />
+    <ClCompile Include="src\GoGameEngine.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\ofApp.cpp" />
     <ClCompile Include="..\..\..\..\addons\ofxGui\src\ofxBaseGui.cpp" />
@@ -201,7 +201,7 @@
     <ClCompile Include="..\..\..\..\addons\ofxNetwork\src\ofxUDPManager.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="GoGameEngine.h" />
+    <ClInclude Include="src\GoGameEngine.h" />
     <ClInclude Include="src\ofApp.h" />
     <ClInclude Include="..\..\..\..\addons\ofxGui\src\ofxBaseGui.h" />
     <ClInclude Include="..\..\..\..\addons\ofxGui\src\ofxButton.h" />
