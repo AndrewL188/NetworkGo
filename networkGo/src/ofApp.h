@@ -28,6 +28,12 @@ class ofApp : public ofBaseApp{
 		const int kStoneSize = 27;
 		GoGameEngine game_engine_;
 
+		enum GameState {
+			IN_PROGRESS = 0,
+			GAME_OVER
+		};
+
+
 	public:
 		void setup();
 		void update();

@@ -1,4 +1,4 @@
-#include "GoGameEngine.h"
+#include "GoGameEngine.h";
 
 #include <iostream>
 #include <algorithm>

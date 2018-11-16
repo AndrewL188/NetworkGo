@@ -14,7 +14,12 @@ private:
 	int pass_counter_ = 0;
 	int board_size_;
 
+	int black_captures_ = 0;
+	int white_captures_ = 0;
+	const double kKomi = 6.5;
+
 	std::vector<std::vector<int> > board_state_;
+	std::vector<int> flat_board_state_;
 
 public:
 	//Constructors that fills empty board state vector with 0's
@@ -44,11 +49,17 @@ public:
 	*/
 	bool LegalMove(int row, int col);
 
+
+
+
+
+
 	//Getter methods to access various aspects of the game
 	int getDefaultBoardSize() { return kDefaultBoardSize; }
 	int getBoardSize() { return board_size_; }
 	std::vector<std::vector<int> > getBoardState() { return board_state_; }
-
+	int getBlackCaptures() { return black_captures_; }
+	int getWhiteCaptures() { return white_captures_; }
 };
 
 
