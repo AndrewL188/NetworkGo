@@ -52,9 +52,11 @@ class ofApp : public ofBaseApp{
 		void gotMessage(ofMessage msg);
 
 		//GUI elements
+		ofTrueTypeFont font;
 		ofxPanel gui_;
 		ofxButton pass_button_;
 		ofxButton resign_button_;
+
 
 		/*
 		Method that runs when the resign button is pressed. Will end the game and indicate the winner
@@ -77,5 +79,9 @@ class ofApp : public ofBaseApp{
 		Renders black and white stones onto the board based on the board state of the game engine
 		*/
 		void drawBoardState();
+		/*
+		Renders display that shows captures stones for both players
+		*/
+		void drawCapturedStones();
 		
 };

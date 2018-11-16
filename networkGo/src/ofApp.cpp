@@ -20,6 +20,7 @@ void ofApp::update(){
 void ofApp::draw(){
 	drawGoBoard();
 	drawBoardState();
+	drawCapturedStones();
 	gui_.draw();
 }
 
@@ -127,6 +128,13 @@ void ofApp::drawBoardState()
 			}
 		}
 	}
+}
+
+void ofApp::drawCapturedStones() {
+	font.loadFont("vag.ttf", 30, true, true);
+	font.drawString("Black Captures: " + std::to_string(game_engine_.getBlackCaptures()), 900, 250);
+	font.drawString("White Captures: " + std::to_string(game_engine_.getWhiteCaptures()), 900, 300);
+
 }
 
 //--------------------------------------------------------------
