@@ -33,6 +33,8 @@ class ofApp : public ofBaseApp{
 			GAME_OVER
 		};
 
+		GameState current_state_ = IN_PROGRESS;
+
 
 	public:
 		void setup();

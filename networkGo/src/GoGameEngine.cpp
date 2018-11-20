@@ -42,6 +42,11 @@ void GoGameEngine::pass()
 	pass_counter_++;
 }
 
+void GoGameEngine::resign()
+{
+	winner_ = (current_player_ == kBlackPlayer) ? kWhitePlayer : kWhitePlayer;
+}
+
 bool GoGameEngine::LegalMove(int row, int col)
 {
 	if (row >= board_size_ || col >= board_size_ || row < 0 || col < 0) {
@@ -53,4 +58,24 @@ bool GoGameEngine::LegalMove(int row, int col)
 	}
 
 	return true;
+}
+
+bool GoGameEngine::isOnBoard(int row, int col)
+{
+	return (row < board_size_ && row >= 0 && col < board_size_ && col >= 0);
+}
+
+int GoGameEngine::flatten(int row, int col)
+{
+	return row * board_size_ + col;
+}
+
+std::vector<int> GoGameEngine::unflatten(int coordinate)
+{
+	vector<int> temp;
+	//row coordinate
+	temp.push_back(coordinate / board_size_);
+	//column coordinate
+	temp.push_back(coordinate % board_size_);
+	return temp;
 }
