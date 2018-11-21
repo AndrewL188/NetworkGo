@@ -44,7 +44,7 @@ void GoGameEngine::pass()
 
 void GoGameEngine::resign()
 {
-	winner_ = (current_player_ == kBlackPlayer) ? kWhitePlayer : kWhitePlayer;
+	winner_ = (current_player_ == kBlackPlayer) ? WHITEPLAYER : BLACKPLAYER;
 }
 
 bool GoGameEngine::LegalMove(int row, int col)

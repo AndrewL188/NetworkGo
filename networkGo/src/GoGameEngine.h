@@ -4,6 +4,13 @@
 #include <vector>
 
 class GoGameEngine {
+public:
+	//Enum class representing the players
+	enum Player {
+		BLACKPLAYER,
+		WHITEPLAYER,
+		NOPLAYER
+	};
 private:
 	const int kDefaultBoardSize = 9;
 	const int kNoWinner = -1;
@@ -18,7 +25,7 @@ private:
 	int black_captures_ = 0;
 	int white_captures_ = 0;
 	const double kKomi = 6.5;
-	int winner_ = kNoWinner;
+	Player winner_ = NOPLAYER;
 
 	std::vector<std::vector<int> > board_state_;
 	std::vector<int> flat_board_state_;
@@ -88,10 +95,11 @@ public:
 	std::vector<std::vector<int> > getBoardState() { return board_state_; }
 	int getBlackCaptures() { return black_captures_; }
 	int getWhiteCaptures() { return white_captures_; }
+	int getPassCounter() { return pass_counter_; }
 	/*
 	Returns the player number of the winner: -1 if there is no winner, 1 if black wins, 2 if white wins
 	*/
-	int getWinner() { return winner_; }
+	Player getWinner() { return winner_; }
 };
 
 
