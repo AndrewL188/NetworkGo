@@ -20,7 +20,7 @@ TEST_CASE("Constructors initialize empty go board") {
 	}
 }
 TEST_CASE("PlayMove method alternates turns and alters board state") {
-	GoGameEngine game_engine;
+	GoGameEngine game_engine(9);
 	game_engine.playMove(0, 0);
 	game_engine.playMove(0, 1);
 	game_engine.playMove(0, 2);
@@ -55,3 +55,20 @@ TEST_CASE("Resigning makes the opposing player the winner") {
 	game_engine.resign();
 	REQUIRE(game_engine.getWinner() == GoGameEngine::WHITEPLAYER);
 }
+TEST_CASE("Flatten and unflatten methods return correct coordinates") {
+	GoGameEngine game_engine;
+	SECTION("Flatten method") {
+		REQUIRE(game_engine.flatten(0, 0) == 0);
+		REQUIRE(game_engine.flatten(0, 7) == 7);
+		REQUIRE(game_engine.flatten(3, 3) == 30);
+	}
+	SECTION("Unflatten method") {
+		REQUIRE(game_engine.unflatten(0)[0] == 0);
+		REQUIRE(game_engine.unflatten(0)[1] == 0);
+		REQUIRE(game_engine.unflatten(7)[0] == 0);
+		REQUIRE(game_engine.unflatten(7)[1] == 7);
+		REQUIRE(game_engine.unflatten(31)[0] == 3);
+		REQUIRE(game_engine.unflatten(31)[1] == 4);
+	}
+}
+

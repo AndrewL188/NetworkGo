@@ -2,6 +2,7 @@
 #define GO_GAME_ENGINE_h
 
 #include <vector>
+#include <algorithm>
 
 class GoGameEngine {
 public:
@@ -75,13 +76,25 @@ public:
 
 
 	/*
-	Returns the coordinates in the 2d vector of the board given a coordinate in the 1d vector
+	Returns the coordinates in the 2d vector of the board given a coordinate in the 1d vector. Returns a vector in 
+	the following format:
+	[row,col]
 	*/
 	std::vector<int> unflatten(int coordinate);
 
 	/*
-	Flood-fill type algorithm to find a chain of connected stones of the same color
+	Flood-fill type algorithm to find a chain of connected stones of the same color. Returns a list of numbers that 
+	represent the flattened coordinates of each stone (or empty space) in the connected chain. Visisted nodes is a 
+	vector of ints that represents the nodes that have already been checked
+	Returns a vector of integers representing the flattened coordinates
 	*/
+	std::vector<int> findChain(int row, int col);
+
+	/*
+	Helper method that determines whether or not a vector contains a particular value
+	Returns a boolean indicating whether or not the vector contains the value
+	*/
+	bool contains(std::vector<int> vec, int value);
 
 
 
