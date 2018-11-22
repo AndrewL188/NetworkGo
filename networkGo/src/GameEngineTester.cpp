@@ -71,4 +71,23 @@ TEST_CASE("Flatten and unflatten methods return correct coordinates") {
 		REQUIRE(game_engine.unflatten(31)[1] == 4);
 	}
 }
+TEST_CASE("findChain method returns vector of connected stones") {
+	GoGameEngine game_engine;
+	game_engine.playMove(0, 0);
+	game_engine.playMove(8, 0);
+	game_engine.playMove(0, 1);
+	game_engine.playMove(8, 1);
+	game_engine.playMove(1, 1);
+	SECTION("Returns chain of black stones") {
+		REQUIRE(game_engine.findChain(0, 0).size() == 3);
+		REQUIRE(game_engine.findChain(0, 1)[0] == 1);
+	}
+	SECTION("Returns chain of white stones") {
+		REQUIRE(game_engine.findChain(8, 0).size() == 2);
+		REQUIRE(game_engine.findChain(8, 0)[1] == 73);
+	}
+	SECTION("Returns chain of empty spaces") {
+		REQUIRE(game_engine.findChain(5, 5).size() == 76);
+	}
+}
 

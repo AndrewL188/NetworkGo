@@ -83,12 +83,15 @@ public:
 	std::vector<int> unflatten(int coordinate);
 
 	/*
-	Flood-fill type algorithm to find a chain of connected stones of the same color. Returns a list of numbers that 
-	represent the flattened coordinates of each stone (or empty space) in the connected chain. Visisted nodes is a 
-	vector of ints that represents the nodes that have already been checked
-	Returns a vector of integers representing the flattened coordinates
+	Flood-fill type algorithm to find a chain of connected stones of the same color. Models the go board as a graph
+	with different colored nodes. Returns a list of numbers that represent the flattened coordinates of each stone
+	(or empty space) in the connected chain. 
 	*/
 	std::vector<int> findChain(int row, int col);
+	/*
+	Finds the liberties of a chain of stones using the findChain method and a similar flood-fill algorithm
+	*/
+	std::vector<int> findLiberties(int row, int col);
 
 	/*
 	Helper method that determines whether or not a vector contains a particular value
@@ -106,6 +109,7 @@ public:
 	int getDefaultBoardSize() { return kDefaultBoardSize; }
 	int getBoardSize() { return board_size_; }
 	std::vector<std::vector<int> > getBoardState() { return board_state_; }
+	std::vector<int> getFlatBoardState() { return flat_board_state_; }
 	int getBlackCaptures() { return black_captures_; }
 	int getWhiteCaptures() { return white_captures_; }
 	int getPassCounter() { return pass_counter_; }
