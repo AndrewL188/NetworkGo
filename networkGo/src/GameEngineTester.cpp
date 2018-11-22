@@ -90,4 +90,32 @@ TEST_CASE("findChain method returns vector of connected stones") {
 		REQUIRE(game_engine.findChain(5, 5).size() == 76);
 	}
 }
+TEST_CASE("findLiberties method returns vector of the coordinates of the liberties of connected stones") {
+	GoGameEngine game_engine;
+	game_engine.playMove(5, 5);
+	game_engine.playMove(8, 0);
+	game_engine.playMove(5, 6);
+	game_engine.playMove(3, 0);
+	game_engine.playMove(0, 0);
+	game_engine.playMove(0, 8);
+	game_engine.playMove(8, 8);
+	game_engine.playMove(8, 5);
+	game_engine.playMove(7, 5);
+	SECTION("Liberties in the middle of the board are correct") {
+		REQUIRE(game_engine.findLiberties(5, 5).size() == 6);
+	}
+	SECTION("Liberties on corners of the board are correct") {
+		REQUIRE(game_engine.findLiberties(0, 0).size() == 2);
+		REQUIRE(game_engine.findLiberties(8, 0).size() == 2);
+		REQUIRE(game_engine.findLiberties(0, 8).size() == 2);
+		REQUIRE(game_engine.findLiberties(8, 8).size() == 2);
+	}
+	SECTION("Liberties on the side of the board are correct") {
+		REQUIRE(game_engine.findLiberties(3, 0).size() == 3);
+	}
+	SECTION("Liberties do not increase for stones of opposite color") {
+		REQUIRE(game_engine.findLiberties(8, 5).size() == 3);
+		REQUIRE(game_engine.findLiberties(7, 5).size() == 4);
+	}
+}
 
