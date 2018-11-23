@@ -167,14 +167,21 @@ TEST_CASE("checkCaptures method removes stones from board") {
 	game_engine.playMove(1, 1);
 
 	SECTION("Middle of board") {
-		game_engine.checkCaptures(6, 5);
 		REQUIRE(game_engine.getBoardState()[5][5] == 0);
-		REQUIRE(game_engine.getWhiteCaptures() == 1);
+		REQUIRE(game_engine.getWhiteCaptures() == 2);
 	}
 	SECTION("Edge of board") {
-		game_engine.checkCaptures(1, 1);
 		REQUIRE(game_engine.getBoardState()[0][1] == 0);
-		REQUIRE(game_engine.getWhiteCaptures() == 1);
+		REQUIRE(game_engine.getWhiteCaptures() == 2);
 	}
+}
+TEST_CASE("Suicide moves are not allowed unless they capture stones") {
+	GoGameEngine game_engine;
+	game_engine.playMove(0, 1);
+	game_engine.pass();
+	game_engine.playMove(1, 0);
+	game_engine.playMove(0, 0);
+	REQUIRE(game_engine.getBlackCaptures() == 0);
+	REQUIRE(game_engine.getBoardState()[0][0] == 0);
 }
 
