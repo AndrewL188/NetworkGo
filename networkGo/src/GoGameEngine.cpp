@@ -42,6 +42,7 @@ void GoGameEngine::playMove(int row, int col)
 
 	board_state_[row][col] = current_player_;
 	flat_board_state_[flatten(row,col)] = current_player_;
+	checkCaptures(row, col);
 
 	//Sets current_player to opposite color and pass_counter_ back to 0 (since passes must be consecutive)
 	current_player_ = (current_player_ == kBlackPlayer) ? kWhitePlayer : kBlackPlayer;
@@ -68,7 +69,13 @@ bool GoGameEngine::LegalMove(int row, int col)
 	if (board_state_[row][col] != kEmpty) {
 		return false;
 	}
-
+	//Checks if play is a suicide move, which is, in this implementation of go, illegal.
+	board_state_[row][col] == current_player_;
+	if (!hasOpenLiberties(findLiberties(row, col))) {
+		board_state_[row][col] == kEmpty;
+		return false;
+	}
+	board_state_[row][col] == kEmpty;
 	return true;
 }
 
