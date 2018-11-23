@@ -94,6 +94,32 @@ public:
 	std::vector<int> findLiberties(int row, int col);
 
 	/*
+	Method that checks from captured stones and removes stones accordingly. Prioritizes opponent captures
+	first, and only checks the neighboring nodes of the specified row and column. Called after a move is
+	played
+	*/
+	void checkCaptures(int row, int col);
+
+	/*
+	Helper method for checkCapturedStones. Takes a row and column and checks whether or not the specified
+	group has any liberties, and removes the group and increments captures when appropriate
+	*/
+	void checkCapturedStones(int row, int col, int current_color);
+
+	/*
+	Helper method for checkCapturedStones. Takes a vector of integers as a parameter that specify the
+	liberties of a group of stones. Returns a boolean indicating whether or not the specified
+	coordinates have any empty liberties.
+	*/
+	bool hasOpenLiberties(std::vector<int> &liberties);
+
+	/*
+	Helper method for checkCapturedStones. Takes a reference to a vector of integers as a parameter that
+	specify the stones to be removed from the board. 
+	*/
+	void removeStones(std::vector<int> &stones);
+
+	/*
 	Helper method that determines whether or not a vector contains a particular value
 	Returns a boolean indicating whether or not the vector contains the value
 	*/

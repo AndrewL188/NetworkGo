@@ -161,6 +161,50 @@ std::vector<int> GoGameEngine::findLiberties(int row, int col)
 	return liberty_coordinates;
 }
 
+
+void GoGameEngine::checkCaptures(int row, int col) {
+	int current_color = board_state_[row][col];
+	checkCapturedStones(row + 1, col, current_color);
+	checkCapturedStones(row - 1, col, current_color);
+	checkCapturedStones(row, col + 1, current_color);
+	checkCapturedStones(row, col - 1, current_color);
+}
+
+void GoGameEngine::checkCapturedStones(int row, int col, int current_color)
+{
+	if (isOnBoard(row,col) && board_state_[row][col] != kEmpty && board_state_[row][col] != current_color) {
+		vector<int> current_group = findChain(row, col);
+		vector<int> current_liberties = findLiberties(row, col);
+		if (!hasOpenLiberties(current_liberties)) {
+			removeStones(current_group);
+			if (current_color == kBlackPlayer) {
+				black_captures_ += current_group.size();
+			}
+			else {
+				white_captures_ += current_group.size();
+			}
+		}
+	}
+}
+
+bool GoGameEngine::hasOpenLiberties(std::vector<int> &liberties)
+{
+	for (int i : liberties) {
+		if (flat_board_state_[i] == kEmpty) {
+			return true;
+		}
+	}
+	return false;
+}
+
+void GoGameEngine::removeStones(std::vector<int>& stones)
+{
+	for (int i : stones) {
+		flat_board_state_[i] = kEmpty;
+		board_state_[unflatten(i)[0]][unflatten(i)[1]] = kEmpty;
+	}
+}
+
 bool GoGameEngine::contains(std::vector<int> vec, int value)
 {
 	return (std::find(vec.begin(), vec.end(), value) != vec.end());

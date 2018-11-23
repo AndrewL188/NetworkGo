@@ -118,4 +118,63 @@ TEST_CASE("findLiberties method returns vector of the coordinates of the liberti
 		REQUIRE(game_engine.findLiberties(7, 5).size() == 4);
 	}
 }
+TEST_CASE("Remove stones method properly removes a group of stones from the board") {
+	GoGameEngine game_engine;
+	game_engine.playMove(2, 2);
+	game_engine.pass();
+	game_engine.playMove(2, 3);
+	game_engine.pass();
+	game_engine.playMove(2, 4);
+	game_engine.pass();
+	game_engine.removeStones(game_engine.findChain(2, 2));
+	REQUIRE(game_engine.getBoardState()[2][2] == 0);
+	REQUIRE(game_engine.getBoardState()[2][3] == 0);
+	REQUIRE(game_engine.getBoardState()[2][4] == 0);
+}
+TEST_CASE("hasOpenLiberties returns correct value for group of stones") {
+	GoGameEngine game_engine;
+	game_engine.playMove(5, 5);
+	game_engine.playMove(5, 4);
+	game_engine.pass();
+	game_engine.playMove(5, 6);
+	game_engine.pass();
+	game_engine.playMove(4, 5);
+	game_engine.pass();
+	game_engine.playMove(6, 5);
+	game_engine.playMove(0, 0);
+	SECTION("Returns false for group with no liberties") {
+		REQUIRE(game_engine.hasOpenLiberties(game_engine.findLiberties(5, 5)) == false);
+	}
+	SECTION("Returns true for group with liberties") {
+		REQUIRE(game_engine.hasOpenLiberties(game_engine.findLiberties(0, 0)) == true);
+	}
+}
+TEST_CASE("checkCaptures method removes stones from board") {
+	GoGameEngine game_engine;
+	game_engine.playMove(5, 5);
+	game_engine.playMove(5, 4);
+	game_engine.playMove(0, 1);
+	game_engine.playMove(5, 6);
+	game_engine.pass();
+	game_engine.playMove(4, 5);
+	game_engine.pass();
+	game_engine.playMove(6, 5);
+	game_engine.pass();
+	game_engine.playMove(0, 0);
+	game_engine.pass();
+	game_engine.playMove(0, 2);
+	game_engine.pass();
+	game_engine.playMove(1, 1);
+
+	SECTION("Middle of board") {
+		game_engine.checkCaptures(6, 5);
+		REQUIRE(game_engine.getBoardState()[5][5] == 0);
+		REQUIRE(game_engine.getWhiteCaptures() == 1);
+	}
+	SECTION("Edge of board") {
+		game_engine.checkCaptures(1, 1);
+		REQUIRE(game_engine.getBoardState()[0][1] == 0);
+		REQUIRE(game_engine.getWhiteCaptures() == 1);
+	}
+}
 
