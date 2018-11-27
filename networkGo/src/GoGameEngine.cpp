@@ -151,7 +151,7 @@ std::vector<int> GoGameEngine::findLiberties(int row, int col)
 		int new_x = unflatten(i)[0];
 		int new_y = unflatten(i)[1];
 		if (isOnBoard(new_x + 1, new_y) && board_state_[new_x + 1][new_y] != current_color && 
-			!contains(liberty_coordinates, flatten(new_x+1, new_y))) {
+			!contains(liberty_coordinates, flatten(new_x + 1, new_y))) {
 
 			liberty_coordinates.push_back(flatten(new_x + 1, new_y));
 		}
@@ -229,7 +229,7 @@ void GoGameEngine::countScore() {
 	for (int i = 0; i < board_size_*board_size_; i++) {
 		if (flat_board_state_[i] == kEmpty && !contains(marked_coordinates, i)) {
 			vector<int> possible_territory = findChain(unflatten(i)[0], unflatten(i)[1]);
-			vector<int> territory_border = findLiberties(0, 0);
+			vector<int> territory_border = findLiberties(unflatten(i)[0], unflatten(i)[1]);
 			int possible_color = flat_board_state_[territory_border[0]];
 			if (isTerritory(possible_color, territory_border)) {
 				if (possible_color == kBlackPlayer) {

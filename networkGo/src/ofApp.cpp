@@ -27,6 +27,8 @@ void ofApp::draw(){
 		gui_.draw();
 	}
 	else if (current_state_ == GAME_OVER) {
+		drawGoBoard();
+		drawBoardState();
 		drawWinScreen();
 	}
 }
