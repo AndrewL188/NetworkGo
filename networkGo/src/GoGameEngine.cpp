@@ -218,3 +218,47 @@ bool GoGameEngine::contains(std::vector<int> vec, int value)
 {
 	return (std::find(vec.begin(), vec.end(), value) != vec.end());
 }
+
+void GoGameEngine::countScore() {
+	vector<int> marked_coordinates(board_size_*board_size_, 0);
+
+	for (int i = 0; i < board_size_*board_size_; i++) {
+		if (flat_board_state_[i] == kEmpty && !contains(marked_coordinates, i)) {
+			vector<int> possible_territory = findChain(unflatten(i)[0], unflatten(i)[1]);
+			vector<int> territory_border = findLiberties(unflatten(i)[0], unflatten(i)[1]);
+			int possible_color = findLiberties(unflatten(i)[0], unflatten(i)[1])[0];
+			if (isTerritory(possible_color, territory_border)) {
+				if (possible_color == kBlackPlayer) {
+					black_score_ += possible_territory.size();
+				}
+				else if (possible_color == kWhitePlayer) {
+					white_score_ += possible_territory.size();
+				}
+			}
+			//Marks the visited coordinates
+			for (int i : possible_territory) {
+				marked_coordinates.push_back(i);
+			}
+		}
+		else if (flat_board_state_[i] == kBlackPlayer) {
+			black_score_++;
+		}
+		else if (flat_board_state_[i] == kWhitePlayer) {
+			white_score_++;
+		}
+	}
+	white_score_ += kKomi;
+
+	winner_ = (black_score_ > white_score_) ? BLACKPLAYER : WHITEPLAYER;
+
+}
+
+bool GoGameEngine::isTerritory(int current_color, vector<int>& border)
+{
+	for (int i : border) {
+		if (flat_board_state_[i] != current_color) {
+			return false;
+		}
+	}
+	return true;
+}

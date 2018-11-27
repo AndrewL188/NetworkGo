@@ -25,6 +25,8 @@ private:
 
 	int black_captures_ = 0;
 	int white_captures_ = 0;
+	double black_score_ = 0;
+	double white_score_ = 0;
 	const double kKomi = 6.5;
 	Player winner_ = NOPLAYER;
 
@@ -124,6 +126,23 @@ public:
 	Returns a boolean indicating whether or not the vector contains the value
 	*/
 	bool contains(std::vector<int> vec, int value);
+
+	/*
+	Method that counts the score for each player and sets a winner. Called when players pass consecutively.
+	This method utilizes the Chinese counting method, so players are expected to capture the dead stones
+	within their own territory before ending the game.
+	*/
+	void countScore();
+
+	/*
+	Helper method for countScore. Determines whether or not the all the "liberties" of a chain of empty
+	coordinates are one color. 
+	@param current_color is the color of the player we wish to determine whether or not the chain of empty 
+	stones is territory for
+	@param border is a vector that represents the border of the territory
+	@return boolean indicating whether or not the chain of empty stones is territory for the player
+	*/
+	bool isTerritory(int current_color, vector<int> &border);
 
 
 
