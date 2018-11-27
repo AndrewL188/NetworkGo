@@ -142,7 +142,7 @@ public:
 	@param border is a vector that represents the border of the territory
 	@return boolean indicating whether or not the chain of empty stones is territory for the player
 	*/
-	bool isTerritory(int current_color, vector<int> &border);
+	bool isTerritory(int current_color, std::vector<int> &border);
 
 
 
@@ -158,10 +158,10 @@ public:
 	int getBlackCaptures() { return black_captures_; }
 	int getWhiteCaptures() { return white_captures_; }
 	int getPassCounter() { return pass_counter_; }
-	/*
-	Returns the player number of the winner: -1 if there is no winner, 1 if black wins, 2 if white wins
-	*/
 	Player getWinner() { return winner_; }
+	double getBlackScore() { return black_score_; }
+	double getWhiteScore() { return white_score_; }
+	double getScoreDifference() { return abs(black_score_ - white_score_); }
 };
 
 
