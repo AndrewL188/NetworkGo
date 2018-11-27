@@ -29,7 +29,7 @@ class ofApp : public ofBaseApp{
 		GoGameEngine game_engine_;
 
 		enum GameState {
-			IN_PROGRESS = 0,
+			IN_PROGRESS,
 			GAME_OVER
 		};
 
@@ -38,6 +38,9 @@ class ofApp : public ofBaseApp{
 
 	public:
 		void setup();
+		/*
+		Called whenever the user performs an action (clicks a button or a part of the board)
+		*/
 		void update();
 		void draw();
 
@@ -85,5 +88,9 @@ class ofApp : public ofBaseApp{
 		Renders display that shows captures stones for both players
 		*/
 		void drawCapturedStones();
+		/*
+		Renders win screen
+		*/
+		void drawWinScreen();
 		
 };

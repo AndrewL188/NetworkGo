@@ -29,6 +29,7 @@ private:
 	double white_score_ = 0;
 	const double kKomi = 6.5;
 	Player winner_ = NOPLAYER;
+	bool resigned_ = false;
 
 	std::vector<std::vector<int> > board_state_;
 	std::vector<int> flat_board_state_;
@@ -91,7 +92,7 @@ public:
 	*/
 	std::vector<int> findChain(int row, int col);
 	/*
-	Finds the liberties of a chain of stones using the findChain method and a similar flood-fill algorithm
+	Finds the liberties of a chain of stones using the findChain method
 	*/
 	std::vector<int> findLiberties(int row, int col);
 
@@ -162,6 +163,7 @@ public:
 	double getBlackScore() { return black_score_; }
 	double getWhiteScore() { return white_score_; }
 	double getScoreDifference() { return abs(black_score_ - white_score_); }
+	bool getResigned() { return resigned_; }
 };
 
 

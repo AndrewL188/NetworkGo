@@ -13,16 +13,22 @@ void ofApp::setup(){
 
 //--------------------------------------------------------------
 void ofApp::update(){
-
+	if (game_engine_.getWinner() != GoGameEngine::NOPLAYER) {
+		current_state_ = GAME_OVER;
+	}
 }
 
 //--------------------------------------------------------------
 void ofApp::draw(){
-	
-	drawGoBoard();
-	drawBoardState();
-	drawCapturedStones();
-	gui_.draw();
+	if (current_state_ == IN_PROGRESS) {
+		drawGoBoard();
+		drawBoardState();
+		drawCapturedStones();
+		gui_.draw();
+	}
+	else if (current_state_ == GAME_OVER) {
+		drawWinScreen();
+	}
 }
 
 //--------------------------------------------------------------
@@ -49,49 +55,52 @@ void ofApp::mouseDragged(int x, int y, int button){
 void ofApp::mousePressed(int x, int y, int button){
 	//If the mouse is not on the board, clicking does nothing
 	if (x < kBoardXCoordinate + kSquareSize / 2 || x > kBoardXCoordinate + game_engine_.getBoardSize() * kSquareSize + kSquareSize / 2 ||
-		y < kBoardYCoordinate + kSquareSize / 2 || y > kBoardYCoordinate + game_engine_.getBoardSize() * kSquareSize + kSquareSize / 2) {
-		return;
+y < kBoardYCoordinate + kSquareSize / 2 || y > kBoardYCoordinate + game_engine_.getBoardSize() * kSquareSize + kSquareSize / 2) {
+return;
 	}
 	//Calculates the indicies of where user wants to play on the board
 	double board_coord_x = ((double)(x - kBoardXCoordinate - kSquareSize)) / kSquareSize;
 	double board_coord_y = ((double)(y - kBoardXCoordinate - kSquareSize)) / kSquareSize;
 	int board_coord_x_int = (int)round(board_coord_x);
 	int board_coord_y_int = (int)round(board_coord_y);
-	
+
 
 	game_engine_.playMove(board_coord_x_int, board_coord_y_int);
+	update();
 }
 
 void ofApp::resignButtonPressed() {
-
+	game_engine_.resign();
+	update();
 }
 
 void ofApp::passButtonPressed() {
 	game_engine_.pass();
+	update();
 }
 
 //--------------------------------------------------------------
-void ofApp::mouseReleased(int x, int y, int button){
-
-}
-
-//--------------------------------------------------------------
-void ofApp::mouseEntered(int x, int y){
+void ofApp::mouseReleased(int x, int y, int button) {
 
 }
 
 //--------------------------------------------------------------
-void ofApp::mouseExited(int x, int y){
+void ofApp::mouseEntered(int x, int y) {
 
 }
 
 //--------------------------------------------------------------
-void ofApp::windowResized(int w, int h){
+void ofApp::mouseExited(int x, int y) {
 
 }
 
 //--------------------------------------------------------------
-void ofApp::gotMessage(ofMessage msg){
+void ofApp::windowResized(int w, int h) {
+
+}
+
+//--------------------------------------------------------------
+void ofApp::gotMessage(ofMessage msg) {
 
 }
 
@@ -99,13 +108,13 @@ void ofApp::gotMessage(ofMessage msg){
 void ofApp::drawGoBoard()
 {
 	ofSetColor(kBoardColorRed, kBoardColorGreen, kBoardColorBlue);
-	ofDrawRectangle(kSquareSize, kSquareSize, kSquareSize*(1 + game_engine_.getBoardSize()), 
+	ofDrawRectangle(kSquareSize, kSquareSize, kSquareSize*(1 + game_engine_.getBoardSize()),
 		kSquareSize*(1 + game_engine_.getBoardSize()));
-	
+
 	//Draws grid
 	ofSetColor(0, 0, 0);
 	for (int i = 0; i < game_engine_.getBoardSize(); i++) {
-		ofDrawLine(kBoardXCoordinate + (i + 1) * kSquareSize, kBoardYCoordinate + kSquareSize, 
+		ofDrawLine(kBoardXCoordinate + (i + 1) * kSquareSize, kBoardYCoordinate + kSquareSize,
 			kBoardXCoordinate + (i + 1) * kSquareSize, kBoardYCoordinate + game_engine_.getBoardSize() * kSquareSize);
 
 		ofDrawLine(kBoardXCoordinate + kSquareSize, kBoardYCoordinate + (i + 1) * kSquareSize,
@@ -137,6 +146,19 @@ void ofApp::drawCapturedStones() {
 	font.drawString("Black Captures: " + std::to_string(game_engine_.getBlackCaptures()), 900, 250);
 	font.drawString("White Captures: " + std::to_string(game_engine_.getWhiteCaptures()), 900, 300);
 
+}
+
+void ofApp::drawWinScreen() {
+	font.loadFont("vag.ttf", 30, true, true);
+	ofSetColor(kBlackStoneRed, kBlackStoneGreen, kBlackStoneBlue);
+	if (game_engine_.getWinner() == GoGameEngine::BLACKPLAYER) {
+		font.drawString("Black wins by " + std::to_string(game_engine_.getScoreDifference()) +
+			" points", 900, 250);
+	}
+	else if (game_engine_.getWinner() == GoGameEngine::WHITEPLAYER) {
+		font.drawString("White wins by " + std::to_string(game_engine_.getScoreDifference()) +
+			" points", 900, 250);
+	}
 }
 
 //--------------------------------------------------------------

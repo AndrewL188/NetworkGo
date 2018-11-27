@@ -184,6 +184,13 @@ TEST_CASE("Suicide moves are not allowed unless they capture stones") {
 	REQUIRE(game_engine.getBlackCaptures() == 0);
 	REQUIRE(game_engine.getBoardState()[0][0] == 0);
 }
+TEST_CASE("FindLiberties can find the border of a territory") {
+	GoGameEngine game_engine;
+	game_engine.playMove(5, 5);
+	REQUIRE(game_engine.findLiberties(0, 0)[0] == 50);
+	REQUIRE(game_engine.findLiberties(0, 0).size() == 1);
+	REQUIRE(game_engine.findChain(0, 0).size() == 80);
+}
 TEST_CASE("countScore method counts the score and assigns a winner") {
 	GoGameEngine game_engine;
 	game_engine.playMove(0, 1);
@@ -191,5 +198,24 @@ TEST_CASE("countScore method counts the score and assigns a winner") {
 	REQUIRE(game_engine.getWinner() == GoGameEngine::BLACKPLAYER);
 	REQUIRE(game_engine.getBlackScore() == 81);
 	REQUIRE(game_engine.getWhiteScore() == 6.5);
+	REQUIRE(game_engine.getScoreDifference() == 74.5);
+}
+TEST_CASE("Passing twice in a row counts the score and assigns a winner") {
+	GoGameEngine game_engine;
+	game_engine.playMove(5, 5);
+	game_engine.pass();
+	game_engine.pass();
+	REQUIRE(game_engine.getWinner() == GoGameEngine::BLACKPLAYER);
+	REQUIRE(game_engine.getBlackScore() == 81);
+	REQUIRE(game_engine.getWhiteScore() == 6.5);
+	REQUIRE(game_engine.getScoreDifference() == 74.5);
+}
+TEST_CASE("Passing twice, but not consecutively, does not assign a winner") {
+	GoGameEngine game_engine;
+	game_engine.playMove(0, 1);
+	game_engine.pass();
+	game_engine.playMove(1, 1);
+	game_engine.pass();
+	REQUIRE(game_engine.getWinner() == GoGameEngine::NOPLAYER);
 }
 

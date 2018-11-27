@@ -60,11 +60,15 @@ void GoGameEngine::pass()
 {
 	current_player_ = (current_player_ == kBlackPlayer) ? kWhitePlayer : kBlackPlayer;
 	pass_counter_++;
+	if (pass_counter_ == 2) {
+		countScore();
+	}
 }
 
 void GoGameEngine::resign()
 {
 	winner_ = (current_player_ == kBlackPlayer) ? WHITEPLAYER : BLACKPLAYER;
+	resigned_ = true;
 }
 
 bool GoGameEngine::LegalMove(int row, int col)
@@ -220,13 +224,13 @@ bool GoGameEngine::contains(std::vector<int> vec, int value)
 }
 
 void GoGameEngine::countScore() {
-	vector<int> marked_coordinates(board_size_*board_size_, 0);
+	vector<int> marked_coordinates;
 
 	for (int i = 0; i < board_size_*board_size_; i++) {
 		if (flat_board_state_[i] == kEmpty && !contains(marked_coordinates, i)) {
 			vector<int> possible_territory = findChain(unflatten(i)[0], unflatten(i)[1]);
-			vector<int> territory_border = findLiberties(unflatten(i)[0], unflatten(i)[1]);
-			int possible_color = findLiberties(unflatten(i)[0], unflatten(i)[1])[0];
+			vector<int> territory_border = findLiberties(0, 0);
+			int possible_color = flat_board_state_[territory_border[0]];
 			if (isTerritory(possible_color, territory_border)) {
 				if (possible_color == kBlackPlayer) {
 					black_score_ += possible_territory.size();
