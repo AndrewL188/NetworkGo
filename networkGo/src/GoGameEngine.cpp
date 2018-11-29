@@ -80,6 +80,14 @@ bool GoGameEngine::LegalMove(int row, int col)
 	if (board_state_[row][col] != kEmpty) {
 		return false;
 	}
+	//Prevent infinite capture loopss
+	if (possible_ko && flatten(row, col) == last_captured_stone_coordinate) {
+		return false;
+	}
+
+	//Reset ko detection variables because they expire after 1 turn
+	possible_ko = false;
+	last_captured_stone_coordinate = -1;
 
 
 	return true;
@@ -195,6 +203,11 @@ void GoGameEngine::checkCapturedStones(int row, int col, int current_color)
 			}
 			else {
 				white_captures_ += current_group.size();
+			}
+			//Additional condition for ko detection
+			if (current_group.size() == 1) {
+				possible_ko = true;
+				last_captured_stone_coordinate = current_group[0];
 			}
 		}
 	}

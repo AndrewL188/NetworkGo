@@ -31,6 +31,10 @@ private:
 	Player winner_ = NOPLAYER;
 	bool resigned_ = false;
 
+	//Variables used for ko detection
+	bool possible_ko = false;
+	int last_captured_stone_coordinate = -1;
+
 	std::vector<std::vector<int> > board_state_;
 	std::vector<int> flat_board_state_;
 
