@@ -108,6 +108,12 @@ public:
 	void checkCaptures(int row, int col);
 
 	/*
+	Method to check whether or not the player will capture only one stone. Important for ko detection
+	Returns a boolean indicating whether or not the player will only capture one stone
+	*/
+	bool willCaptureOneStone(int row, int col);
+
+	/*
 	Helper method for checkCapturedStones. Takes a row and column and checks whether or not the specified
 	group has any liberties, and removes the group and increments captures when appropriate
 	*/

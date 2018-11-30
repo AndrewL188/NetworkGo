@@ -73,6 +73,7 @@ return;
 
 void ofApp::resignButtonPressed() {
 	game_engine_.resign();
+	player_resigned_ = true;
 	update();
 }
 
@@ -153,14 +154,21 @@ void ofApp::drawCapturedStones() {
 void ofApp::drawWinScreen() {
 	font.loadFont("vag.ttf", 30, true, true);
 	ofSetColor(kBlackStoneRed, kBlackStoneGreen, kBlackStoneBlue);
-	if (game_engine_.getWinner() == GoGameEngine::BLACKPLAYER) {
+	if (game_engine_.getWinner() == GoGameEngine::BLACKPLAYER && player_resigned_ == false) {
 		font.drawString("Black wins by " + std::to_string(game_engine_.getScoreDifference()) +
 			" points", 900, 250);
 	}
-	else if (game_engine_.getWinner() == GoGameEngine::WHITEPLAYER) {
+	else if (game_engine_.getWinner() == GoGameEngine::WHITEPLAYER && player_resigned_ == false) {
 		font.drawString("White wins by " + std::to_string(game_engine_.getScoreDifference()) +
 			" points", 900, 250);
 	}
+	else if (game_engine_.getWinner() == GoGameEngine::BLACKPLAYER && player_resigned_ == true) {
+		font.drawString("Black wins by resign", 900, 250);
+	}
+	else if (game_engine_.getWinner() == GoGameEngine::WHITEPLAYER && player_resigned_ == true) {
+		font.drawString("White wins by resign", 900, 250);
+	}
+
 }
 
 //--------------------------------------------------------------

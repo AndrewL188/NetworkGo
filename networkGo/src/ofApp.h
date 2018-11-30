@@ -34,6 +34,7 @@ class ofApp : public ofBaseApp{
 		};
 
 		GameState current_state_ = IN_PROGRESS;
+		bool player_resigned_ = false;
 
 
 	public:

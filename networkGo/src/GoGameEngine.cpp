@@ -80,15 +80,20 @@ bool GoGameEngine::LegalMove(int row, int col)
 	if (board_state_[row][col] != kEmpty) {
 		return false;
 	}
-	//Prevent infinite capture loopss
-	if (possible_ko && flatten(row, col) == last_captured_stone_coordinate) {
+	
+	//Checks for whether or not a ko exists
+	board_state_[row][col] = current_player_;
+	flat_board_state_[flatten(row, col)] = current_player_;
+	if (possible_ko && flatten(row, col) == last_captured_stone_coordinate && willCaptureOneStone(row, col)) {
+		board_state_[row][col] = kEmpty;
+		flat_board_state_[flatten(row, col)] = kEmpty;
 		return false;
 	}
+	board_state_[row][col] = kEmpty;
+	flat_board_state_[flatten(row, col)] = kEmpty;
 
-	//Reset ko detection variables because they expire after 1 turn
 	possible_ko = false;
 	last_captured_stone_coordinate = -1;
-
 
 	return true;
 }
@@ -189,6 +194,29 @@ void GoGameEngine::checkCaptures(int row, int col) {
 	checkCapturedStones(row - 1, col, current_color);
 	checkCapturedStones(row, col + 1, current_color);
 	checkCapturedStones(row, col - 1, current_color);
+}
+
+bool GoGameEngine::willCaptureOneStone(int row, int col)
+{
+	int capture_stone_ctr = 0;
+	if (isOnBoard(row + 1, col) && findChain(row + 1, col).size() == 1 &&
+		!hasOpenLiberties(findLiberties(row + 1, col))) {
+		capture_stone_ctr++;
+	}
+	if (isOnBoard(row - 1, col) && findChain(row - 1, col).size() == 1 &&
+		!hasOpenLiberties(findLiberties(row - 1, col))) {
+		capture_stone_ctr++;
+	}
+	if (isOnBoard(row, col + 1) && findChain(row, col + 1).size() == 1 &&
+		!hasOpenLiberties(findLiberties(row, col + 1))) {
+		capture_stone_ctr++;
+	}
+	if (isOnBoard(row, col - 1) && findChain(row, col - 1).size() == 1 &&
+		!hasOpenLiberties(findLiberties(row, col - 1))) {
+		capture_stone_ctr++;
+	}
+	
+	return (capture_stone_ctr == 1);
 }
 
 void GoGameEngine::checkCapturedStones(int row, int col, int current_color)
