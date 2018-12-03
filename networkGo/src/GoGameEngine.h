@@ -8,9 +8,9 @@ class GoGameEngine {
 public:
 	//Enum class representing the players
 	enum Player {
+		NOPLAYER,
 		BLACKPLAYER,
-		WHITEPLAYER,
-		NOPLAYER
+		WHITEPLAYER
 	};
 private:
 	const int kDefaultBoardSize = 9;

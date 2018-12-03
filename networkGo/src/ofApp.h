@@ -5,6 +5,7 @@
 
 #include "ofMain.h"
 #include "ofxGui.h"
+#include "ofxNetwork.h"
 #include "GoGameEngine.h"
 
 
@@ -35,6 +36,9 @@ class ofApp : public ofBaseApp{
 
 		GameState current_state_ = IN_PROGRESS;
 		bool player_resigned_ = false;
+
+		//Client instance variable
+		ofxTCPClient client;
 
 
 	public:
@@ -80,18 +84,18 @@ class ofApp : public ofBaseApp{
 		/*
 		//Draws the go board
 		*/
-		void drawGoBoard();
+		void drawGoBoard(int size);
 		/*
 		Renders black and white stones onto the board based on the board state of the game engine
 		*/
-		void drawBoardState();
+		void drawBoardState(int board_size, std::string board_state);
 		/*
 		Renders display that shows captures stones for both players
 		*/
-		void drawCapturedStones();
+		void drawCapturedStones(int black_captures, int white_captures);
 		/*
 		Renders win screen
 		*/
-		void drawWinScreen();
+		void drawWinScreen(int winner);
 		
 };

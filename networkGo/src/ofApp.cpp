@@ -2,6 +2,8 @@
 
 //--------------------------------------------------------------
 void ofApp::setup(){
+	//client.setup("10.194.209.87", 1000);
+
 	//Adding listeners to buttons
 	pass_button_.addListener(this, &ofApp::passButtonPressed);
 	resign_button_.addListener(this, &ofApp::resignButtonPressed);
@@ -20,16 +22,25 @@ void ofApp::update(){
 
 //--------------------------------------------------------------
 void ofApp::draw(){
+	int board_size = game_engine_.getBoardSize();
+	string board_state;
+	for (int i = 0; i < board_size * board_size; i++) {
+		board_state += to_string(game_engine_.getFlatBoardState()[i]);
+	}
+	int black_captures = game_engine_.getBlackCaptures();
+	int white_captures = game_engine_.getWhiteCaptures();
+	int winner = game_engine_.getWinner();
+
 	if (current_state_ == IN_PROGRESS) {
-		drawGoBoard();
-		drawBoardState();
-		drawCapturedStones();
+		drawGoBoard(game_engine_.getBoardSize());
+		drawBoardState(board_size, board_state);
+		drawCapturedStones(black_captures, white_captures);
 		gui_.draw();
 	}
 	else if (current_state_ == GAME_OVER) {
-		drawGoBoard();
-		drawBoardState();
-		drawWinScreen();
+		drawGoBoard(game_engine_.getBoardSize());
+		drawBoardState(board_size, board_state);
+		drawWinScreen(winner);
 	}
 }
 
@@ -72,13 +83,12 @@ return;
 }
 
 void ofApp::resignButtonPressed() {
-	game_engine_.resign();
-	player_resigned_ = true;
+	//client.send("resign");
 	update();
 }
 
 void ofApp::passButtonPressed() {
-	game_engine_.pass();
+	//client.send("pass");
 	update();
 }
 
@@ -108,33 +118,32 @@ void ofApp::gotMessage(ofMessage msg) {
 }
 
 
-void ofApp::drawGoBoard()
-{
+void ofApp::drawGoBoard(int size) {
 	ofSetColor(kBoardColorRed, kBoardColorGreen, kBoardColorBlue);
-	ofDrawRectangle(kSquareSize, kSquareSize, kSquareSize*(1 + game_engine_.getBoardSize()),
-		kSquareSize*(1 + game_engine_.getBoardSize()));
+	ofDrawRectangle(kSquareSize, kSquareSize, kSquareSize*(1 + size),
+		kSquareSize*(1 + size));
 
 	//Draws grid
 	ofSetColor(0, 0, 0);
-	for (int i = 0; i < game_engine_.getBoardSize(); i++) {
+	for (int i = 0; i < size; i++) {
 		ofDrawLine(kBoardXCoordinate + (i + 1) * kSquareSize, kBoardYCoordinate + kSquareSize,
-			kBoardXCoordinate + (i + 1) * kSquareSize, kBoardYCoordinate + game_engine_.getBoardSize() * kSquareSize);
+			kBoardXCoordinate + (i + 1) * kSquareSize, kBoardYCoordinate + size * kSquareSize);
 
 		ofDrawLine(kBoardXCoordinate + kSquareSize, kBoardYCoordinate + (i + 1) * kSquareSize,
-			kBoardXCoordinate + game_engine_.getBoardSize() * kSquareSize, kBoardYCoordinate + (i + 1) * kSquareSize);
+			kBoardXCoordinate + size * kSquareSize, kBoardYCoordinate + (i + 1) * kSquareSize);
 	}
 }
 
-void ofApp::drawBoardState()
+void ofApp::drawBoardState(int board_size, string board_state)
 {
-	for (int i = 0; i < game_engine_.getBoardSize(); i++) {
-		for (int j = 0; j < game_engine_.getBoardSize(); j++) {
-			if (game_engine_.getBoardState()[i][j] == kBlackPlayer) {
+	for (int i = 0; i < board_size; i++) {
+		for (int j = 0; j < board_size; j++) {
+			if (stoi(board_state.substr(i*board_size + j, 1)) == kBlackPlayer) {
 				//Renders a black stone
 				ofSetColor(kBlackStoneRed, kBlackStoneGreen, kBlackStoneBlue);
 				ofDrawCircle(kBoardXCoordinate + (i + 1) * kSquareSize, kBoardYCoordinate + (j + 1) * kSquareSize, kStoneSize);
 			}
-			else if (game_engine_.getBoardState()[i][j] == kWhitePlayer) {
+			else if (stoi(board_state.substr(i*board_size + j, 1)) == kWhitePlayer) {
 				//Renders a white stone
 				ofSetColor(kWhiteStoneRed, kWhiteStoneGreen, kWhiteStoneBlue);
 				ofDrawCircle(kBoardXCoordinate + (i + 1) * kSquareSize, kBoardYCoordinate + (j + 1) * kSquareSize, kStoneSize);
@@ -143,29 +152,28 @@ void ofApp::drawBoardState()
 	}
 }
 
-void ofApp::drawCapturedStones() {
+void ofApp::drawCapturedStones(int black_captures, int white_captures) {
 	font.loadFont("vag.ttf", 30, true, true);
 	ofSetColor(kBlackStoneRed, kBlackStoneGreen, kBlackStoneBlue);
-	font.drawString("Black Captures: " + std::to_string(game_engine_.getBlackCaptures()), 900, 250);
-	font.drawString("White Captures: " + std::to_string(game_engine_.getWhiteCaptures()), 900, 300);
-
+	font.drawString("Black Captures: " + std::to_string(black_captures), 900, 250);
+	font.drawString("White Captures: " + std::to_string(white_captures), 900, 300);
 }
 
-void ofApp::drawWinScreen() {
+void ofApp::drawWinScreen(int winner) {
 	font.loadFont("vag.ttf", 30, true, true);
 	ofSetColor(kBlackStoneRed, kBlackStoneGreen, kBlackStoneBlue);
-	if (game_engine_.getWinner() == GoGameEngine::BLACKPLAYER && player_resigned_ == false) {
+	if (winner == kBlackPlayer && player_resigned_ == false) {
 		font.drawString("Black wins by " + std::to_string(game_engine_.getScoreDifference()) +
 			" points", 900, 250);
 	}
-	else if (game_engine_.getWinner() == GoGameEngine::WHITEPLAYER && player_resigned_ == false) {
+	else if (winner == kWhitePlayer && player_resigned_ == false) {
 		font.drawString("White wins by " + std::to_string(game_engine_.getScoreDifference()) +
 			" points", 900, 250);
 	}
-	else if (game_engine_.getWinner() == GoGameEngine::BLACKPLAYER && player_resigned_ == true) {
+	else if (winner == kBlackPlayer && player_resigned_ == true) {
 		font.drawString("Black wins by resign", 900, 250);
 	}
-	else if (game_engine_.getWinner() == GoGameEngine::WHITEPLAYER && player_resigned_ == true) {
+	else if (winner == kWhitePlayer && player_resigned_ == true) {
 		font.drawString("White wins by resign", 900, 250);
 	}
 
