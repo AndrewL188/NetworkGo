@@ -52,12 +52,6 @@
     <ClCompile Include="..\..\..\..\addons\ofxNetwork\src\ofxUDPManager.cpp">
       <Filter>addons\ofxNetwork\src</Filter>
     </ClCompile>
-    <ClCompile Include="src\GoGameEngine.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="src\GameEngineTester.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="src">
@@ -139,9 +133,6 @@
     </ClInclude>
     <ClInclude Include="..\..\..\..\addons\ofxNetwork\src\ofxUDPSettings.h">
       <Filter>addons\ofxNetwork\src</Filter>
-    </ClInclude>
-    <ClInclude Include="src\GoGameEngine.h">
-      <Filter>src</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

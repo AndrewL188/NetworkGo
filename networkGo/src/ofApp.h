@@ -2,15 +2,19 @@
 
 #include <cstdlib>
 #include <utility>
+#include <iostream>
+#include <string>
+#include <sstream>
+#include <algorithm>
+#include <iterator>
 
 #include "ofMain.h"
 #include "ofxGui.h"
 #include "ofxNetwork.h"
-#include "GoGameEngine.h"
-
 
 class ofApp : public ofBaseApp{
 	private:
+		const int kNoPlayer = 0;
 		const int kBlackPlayer = 1;
 		const int kWhitePlayer = 2;
 		const int kBoardColorRed = 210;
@@ -27,7 +31,6 @@ class ofApp : public ofBaseApp{
 		const int kBoardYCoordinate = 80;
 		const int kSquareSize = 80;
 		const int kStoneSize = 27;
-		GoGameEngine game_engine_;
 
 		enum GameState {
 			IN_PROGRESS,
@@ -36,9 +39,18 @@ class ofApp : public ofBaseApp{
 
 		GameState current_state_ = IN_PROGRESS;
 		bool player_resigned_ = false;
+	
+		std::string string_received_;
+		int board_size_;
+		std::string board_state_;
+		int black_captures_ = 0;
+		int white_captures_ = 0;
+		int winner_ = 0;
+		bool player_resigned_ = false;
+		double score_difference_ = 0.0;
 
 		//Client instance variable
-		ofxTCPClient client;
+		ofxTCPClient client_;
 
 
 	public:
