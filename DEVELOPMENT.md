@@ -1,7 +1,7 @@
 # Development Documentation
 
 ## Week 1
-This week I got the GUI and the basic layout of my game engine working, allowing the user to place pieces on the board by clicking in the window.
+This week I got the GUI and the basic layout of my game engine working, allowing the user to place pieces on the board by clicking in the window. The game engine has basic methods that allow external classes to request to change the board state, and handles some basic illegal moves (like playing outside of the board).
 
 
 ## Week 2
