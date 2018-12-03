@@ -2,7 +2,7 @@
 
 //--------------------------------------------------------------
 void ofApp::setup(){
-	//client.setup("10.194.209.87", 1000);
+	client.setup("10.194.209.87", 1000);
 
 	//Adding listeners to buttons
 	pass_button_.addListener(this, &ofApp::passButtonPressed);
@@ -83,12 +83,12 @@ return;
 }
 
 void ofApp::resignButtonPressed() {
-	//client.send("resign");
+	client.send("resign");
 	update();
 }
 
 void ofApp::passButtonPressed() {
-	//client.send("pass");
+	client.send("pass");
 	update();
 }
 

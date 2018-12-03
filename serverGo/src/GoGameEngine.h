@@ -83,7 +83,7 @@ public:
 
 
 	/*
-	Returns the coordinates in the 2d vector of the board given a coordinate in the 1d vector. Returns a vector in 
+	Returns the coordinates in the 2d vector of the board given a coordinate in the 1d vector. Returns a vector in
 	the following format:
 	[row,col]
 	*/
@@ -92,7 +92,7 @@ public:
 	/*
 	Flood-fill type algorithm to find a chain of connected stones of the same color. Models the go board as a graph
 	with different colored nodes. Returns a list of numbers that represent the flattened coordinates of each stone
-	(or empty space) in the connected chain. 
+	(or empty space) in the connected chain.
 	*/
 	std::vector<int> findChain(int row, int col);
 	/*
@@ -128,7 +128,7 @@ public:
 
 	/*
 	Helper method for checkCapturedStones. Takes a reference to a vector of integers as a parameter that
-	specify the stones to be removed from the board. 
+	specify the stones to be removed from the board.
 	*/
 	void removeStones(std::vector<int> &stones);
 
@@ -147,8 +147,8 @@ public:
 
 	/*
 	Helper method for countScore. Determines whether or not the all the "liberties" of a chain of empty
-	coordinates are one color. 
-	@param current_color is the color of the player we wish to determine whether or not the chain of empty 
+	coordinates are one color.
+	@param current_color is the color of the player we wish to determine whether or not the chain of empty
 	stones is territory for
 	@param border is a vector that represents the border of the territory
 	@return boolean indicating whether or not the chain of empty stones is territory for the player

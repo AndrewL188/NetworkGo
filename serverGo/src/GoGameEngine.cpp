@@ -80,7 +80,7 @@ bool GoGameEngine::LegalMove(int row, int col)
 	if (board_state_[row][col] != kEmpty) {
 		return false;
 	}
-	
+
 	//Checks for whether or not a ko exists
 	board_state_[row][col] = current_player_;
 	flat_board_state_[flatten(row, col)] = current_player_;
@@ -131,7 +131,7 @@ std::vector<int> GoGameEngine::findChain(int row, int col)
 		int new_x = unflatten(nodes_to_visit.back())[0];
 		int new_y = unflatten(nodes_to_visit.back())[1];
 		nodes_to_visit.pop_back();
-		if (isOnBoard(new_x + 1, new_y) && board_state_[new_x + 1][new_y] == current_color && 
+		if (isOnBoard(new_x + 1, new_y) && board_state_[new_x + 1][new_y] == current_color &&
 			!contains(chain, flatten(new_x + 1, new_y))) {
 			chain.push_back(flatten(new_x + 1, new_y));
 			nodes_to_visit.push_back(flatten(new_x + 1, new_y));
@@ -163,7 +163,7 @@ std::vector<int> GoGameEngine::findLiberties(int row, int col)
 	for (int i : chain) {
 		int new_x = unflatten(i)[0];
 		int new_y = unflatten(i)[1];
-		if (isOnBoard(new_x + 1, new_y) && board_state_[new_x + 1][new_y] != current_color && 
+		if (isOnBoard(new_x + 1, new_y) && board_state_[new_x + 1][new_y] != current_color &&
 			!contains(liberty_coordinates, flatten(new_x + 1, new_y))) {
 
 			liberty_coordinates.push_back(flatten(new_x + 1, new_y));
@@ -215,13 +215,13 @@ bool GoGameEngine::willCaptureOneStone(int row, int col)
 		!hasOpenLiberties(findLiberties(row, col - 1))) {
 		capture_stone_ctr++;
 	}
-	
+
 	return (capture_stone_ctr == 1);
 }
 
 void GoGameEngine::checkCapturedStones(int row, int col, int current_color)
 {
-	if (isOnBoard(row,col) && board_state_[row][col] != kEmpty && board_state_[row][col] != current_color) {
+	if (isOnBoard(row, col) && board_state_[row][col] != kEmpty && board_state_[row][col] != current_color) {
 		vector<int> current_group = findChain(row, col);
 		vector<int> current_liberties = findLiberties(row, col);
 		if (!hasOpenLiberties(current_liberties)) {
