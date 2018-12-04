@@ -24,10 +24,12 @@ void ofApp::update(){
 				int y_coord = std::stoi(input.substr(comma_index + 1, input.length() - 1 - comma_index));
 				game_engine_.playMove(x_coord, y_coord);
 			}
+			createServerMessage(i);
+			
 		}
 	}
 
-	createServerMessage();
+	
 	
 
 }
@@ -87,24 +89,27 @@ void ofApp::gotMessage(ofMessage msg){
 
 }
 
-void ofApp::createServerMessage() {
-	output_ = "";
-	output_ += game_engine_.getBoardSize() + " ";
-	for (int i = 0; i < game_engine_.getBoardSize() * game_engine_.getBoardSize(); i++) {
-		output_ += game_engine_.getFlatBoardState()[i] + " ";
-	}
-	output_ += game_engine_.getBlackCaptures() + " ";
-	output_ += game_engine_.getWhiteCaptures() + " ";
+void ofApp::createServerMessage(int client_number) {
+	server_.send(client_number, std::to_string(game_engine_.getBoardSize()));
 
-	output_ += game_engine_.getWinner() + " ";
+	std::string board_state;
+	for (int i = 0; i < game_engine_.getBoardSize() * game_engine_.getBoardSize(); i++) {
+		board_state += std::to_string(game_engine_.getFlatBoardState()[i]) + " ";
+	}
+	server_.send(client_number, board_state);
+
+	server_.send(client_number, std::to_string(game_engine_.getBlackCaptures()));
+	server_.send(client_number, std::to_string(game_engine_.getWhiteCaptures()));
+
+	server_.send(client_number, std::to_string(game_engine_.getWinner()));
 
 	if (player_resigned_) {
-		output_ += "true ";
+		server_.send(client_number, "true");
 	}
 	else {
-		output_ += "false ";
+		server_.send(client_number, "false");
 	}
-	output_ += game_engine_.getScoreDifference();
+	server_.send(client_number, std::to_string(game_engine_.getScoreDifference()));
 
 }
 

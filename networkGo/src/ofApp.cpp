@@ -15,58 +15,70 @@ void ofApp::setup(){
 
 //--------------------------------------------------------------
 void ofApp::update(){
-	string_received_ = client_.receive();
-	stringstream ssin(string_received_);
-
-	int index_ctr = 0;
+	std::string temp = client_.receive();
+	stringstream ssin(temp);
 	//Finds board size
 	if (ssin.good()) {
 		string board_size_as_string;
 		ssin >> board_size_as_string;
 		board_size_ = stoi(board_size_as_string);
 	}
+
 	//Finds board state
+	temp = client_.receive();
+	stringstream ssin1(temp);
+	board_state_ = "";
 	for (int i = 0; i < board_size_ * board_size_; i++) {
 		string coordinate;
-		ssin >> coordinate;
+		ssin1 >> coordinate;
 		board_state_ += coordinate;
 	}
 	//Finds black and white captures
-	if (ssin.good()) {
+	temp = client_.receive();
+	stringstream ssin2(temp);
+	if (ssin2.good()) {
 		string black_captures_as_string;
-		ssin >> black_captures_as_string;
+		ssin2 >> black_captures_as_string;
 		black_captures_ = stoi(black_captures_as_string);
 	}
-	if (ssin.good()) {
+	temp = client_.receive();
+	stringstream ssin3(temp);
+	if (ssin3.good()) {
 		string white_captures_as_string;
-		ssin >> white_captures_as_string;
+		ssin3 >> white_captures_as_string;
 		white_captures_ = stoi(white_captures_as_string);
 	}
 	//Finds winner
-	if (ssin.good()) {
+	temp = client_.receive();
+	stringstream ssin4(temp);
+	if (ssin4.good()) {
 		string winner_as_string;
-		ssin >> winner_as_string;
+		ssin4 >> winner_as_string;
 		winner_ = stoi(winner_as_string);
 	}
 	//Finds whether or not player resigned
-	if (ssin.good()) {
-		string temp;
-		ssin >> temp;
-		if (temp == "true") {
-			player_resigned_ = true;
-		}
-		else {
-			player_resigned_ = false;
-		}
+	temp = client_.receive();
+	if (temp == "true") {
+		player_resigned_ = true;
 	}
-	if (ssin.good()) {
-		string score_difference_as_string;
-		ssin >> score_difference_as_string;
-		score_difference_ = stoi(score_difference_as_string);
+	else {
+		player_resigned_ = false;
 	}
-
-
 	
+	//Finds score difference
+	temp = client_.receive();
+	stringstream ssin5(temp);
+	if (ssin5.good()) {
+		string score_difference_as_string;
+		ssin5 >> score_difference_as_string;
+		score_difference_ = stod(score_difference_as_string);
+	}
+
+	//Changes game state based on whether or not there is a winner
+	if (winner_ != kNoPlayer) {
+		current_state_ = GAME_OVER;
+	}
+
 }
 
 //--------------------------------------------------------------
@@ -119,9 +131,8 @@ return;
 	int board_coord_y_int = (int)round(board_coord_y);
 
 	std::string string_coordinates = std::to_string(board_coord_x) + "," + std::to_string(board_coord_y);
-	client_.send(string_coordinates);
-	
 
+	client_.send(string_coordinates);
 	update();
 }
 

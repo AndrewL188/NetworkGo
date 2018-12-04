@@ -10,7 +10,7 @@ private:
 	ofxTCPServer server_;
 	GoGameEngine game_engine_;
 	bool player_resigned_ = false;
-	std::string output_;
+
 
 
 	public:
@@ -37,6 +37,6 @@ private:
 			<score difference>
 			Each aspect of the game is represented as a string, and are separated by a space.
 		*/
-		void createServerMessage();
+		void createServerMessage(int client_number);
 		
 };

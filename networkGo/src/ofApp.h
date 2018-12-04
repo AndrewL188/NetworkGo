@@ -40,7 +40,6 @@ class ofApp : public ofBaseApp{
 		GameState current_state_ = IN_PROGRESS;
 		bool player_resigned_ = false;
 	
-		std::string string_received_;
 		int board_size_;
 		std::string board_state_;
 		int black_captures_ = 0;
