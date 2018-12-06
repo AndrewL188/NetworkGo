@@ -38,10 +38,9 @@ class ofApp : public ofBaseApp{
 		};
 
 		GameState current_state_ = IN_PROGRESS;
-		bool player_resigned_ = false;
 	
-		int board_size_;
-		std::string board_state_;
+		int board_size_ = 9;
+		std::vector<std::vector<int> > board_state_;
 		int black_captures_ = 0;
 		int white_captures_ = 0;
 		int winner_ = 0;
@@ -50,6 +49,7 @@ class ofApp : public ofBaseApp{
 
 		//Client instance variable
 		ofxTCPClient client_;
+	
 
 
 	public:
@@ -99,7 +99,7 @@ class ofApp : public ofBaseApp{
 		/*
 		Renders black and white stones onto the board based on the board state of the game engine
 		*/
-		void drawBoardState(int board_size, std::string board_state);
+		void drawBoardState(int board_size);
 		/*
 		Renders display that shows captures stones for both players
 		*/

@@ -3,10 +3,21 @@
 //--------------------------------------------------------------
 void ofApp::setup(){
 	server_.setup(1000);
+	if (server_.isConnected()) {
+		std::cout << "Connected" << endl;
+	}
 }
 
 //--------------------------------------------------------------
 void ofApp::update(){
+	
+	for (int i = 0; i < server_.getLastID(); i++) {
+		if (server_.isClientConnected(i)) {
+			std::cout << "Connected";
+		}
+	}
+	
+	
 	for (int i = 0; i < server_.getLastID(); i++) {
 		if (server_.isClientConnected(i)) {
 			string input = server_.receive(i);
@@ -25,10 +36,11 @@ void ofApp::update(){
 				game_engine_.playMove(x_coord, y_coord);
 			}
 			createServerMessage(i);
-			
 		}
+		
+		
 	}
-
+	
 	
 	
 

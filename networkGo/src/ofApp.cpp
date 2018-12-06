@@ -11,74 +11,72 @@ void ofApp::setup(){
 	gui_.setup();
 	gui_.add(pass_button_.setup("Pass",200,40));
 	gui_.add(resign_button_.setup("Resign",200,40));
+
+	//Initializes empty board state
+	std::vector<int> temp(9, 0);
+	for (int i = 0; i < 9; i++) {
+		board_state_.push_back(temp);
+	}
 }
 
 //--------------------------------------------------------------
 void ofApp::update(){
-	std::string temp = client_.receive();
-	stringstream ssin(temp);
-	//Finds board size
-	if (ssin.good()) {
-		string board_size_as_string;
-		ssin >> board_size_as_string;
-		board_size_ = stoi(board_size_as_string);
-	}
-
+	
+	std::string string_received = client_.receive();
+	stringstream ssin(string_received);
+	
 	//Finds board state
-	temp = client_.receive();
-	stringstream ssin1(temp);
-	board_state_ = "";
-	for (int i = 0; i < board_size_ * board_size_; i++) {
-		string coordinate;
-		ssin1 >> coordinate;
-		board_state_ += coordinate;
+
+	for (int i = 0; i < board_size_; i++) {
+		for (int j = 0; j < board_size_; j++) {
+			if (ssin.good()) {
+				int temp;
+				ssin >> temp;
+				board_state_[i][j] = temp;
+			}
+		}
 	}
 	//Finds black and white captures
-	temp = client_.receive();
-	stringstream ssin2(temp);
-	if (ssin2.good()) {
-		string black_captures_as_string;
-		ssin2 >> black_captures_as_string;
-		black_captures_ = stoi(black_captures_as_string);
-	}
-	temp = client_.receive();
-	stringstream ssin3(temp);
-	if (ssin3.good()) {
-		string white_captures_as_string;
-		ssin3 >> white_captures_as_string;
-		white_captures_ = stoi(white_captures_as_string);
-	}
-	//Finds winner
-	temp = client_.receive();
-	stringstream ssin4(temp);
-	if (ssin4.good()) {
-		string winner_as_string;
-		ssin4 >> winner_as_string;
-		winner_ = stoi(winner_as_string);
-	}
-	//Finds whether or not player resigned
-	temp = client_.receive();
-	if (temp == "true") {
-		player_resigned_ = true;
-	}
-	else {
-		player_resigned_ = false;
+	
+	if (ssin.good()) {
+		int temp;
+		ssin >> temp;
+		black_captures_ = temp;
 	}
 	
-	//Finds score difference
-	temp = client_.receive();
-	stringstream ssin5(temp);
-	if (ssin5.good()) {
-		string score_difference_as_string;
-		ssin5 >> score_difference_as_string;
-		score_difference_ = stod(score_difference_as_string);
+	if (ssin.good()) {
+		int temp;
+		ssin >> temp;
+		white_captures_ = temp;
+	}
+	//Finds winner
+	if (ssin.good()) {
+		int temp;
+		ssin >> temp;
+		winner_ = temp;
+	}
+	
+	//Finds whether or not player resigned
+	if (ssin.good()) {
+		int temp;
+		ssin >> temp;
+		if (temp == 1) {
+			player_resigned_ = true;
+		}
+		else {
+			player_resigned_ = false;
+		}
 	}
 
+	if (ssin.good()) {
+		double temp;
+		ssin >> temp;
+		score_difference_ = temp;
+	}
 	//Changes game state based on whether or not there is a winner
 	if (winner_ != kNoPlayer) {
 		current_state_ = GAME_OVER;
-	}
-
+	}	
 }
 
 //--------------------------------------------------------------
@@ -86,13 +84,13 @@ void ofApp::draw(){
 	
 	if (current_state_ == IN_PROGRESS) {
 		drawGoBoard(board_size_);
-		drawBoardState(board_size_, board_state_);
+		drawBoardState(board_size_);
 		drawCapturedStones(black_captures_, white_captures_);
 		gui_.draw();
 	}
 	else if (current_state_ == GAME_OVER) {
 		drawGoBoard(board_size_);
-		drawBoardState(board_size_, board_state_);
+		drawBoardState(board_size_);
 		drawWinScreen(winner_);
 	}
 }
@@ -121,8 +119,8 @@ void ofApp::mouseDragged(int x, int y, int button){
 void ofApp::mousePressed(int x, int y, int button){
 	//If the mouse is not on the board, clicking does nothing
 	if (x < kBoardXCoordinate + kSquareSize / 2 || x > kBoardXCoordinate + board_size_ * kSquareSize + kSquareSize / 2 ||
-y < kBoardYCoordinate + kSquareSize / 2 || y > kBoardYCoordinate + board_size_ * kSquareSize + kSquareSize / 2) {
-return;
+		y < kBoardYCoordinate + kSquareSize / 2 || y > kBoardYCoordinate + board_size_ * kSquareSize + kSquareSize / 2) {
+		return;
 	}
 	//Calculates the indicies of where user wants to play on the board
 	double board_coord_x = ((double)(x - kBoardXCoordinate - kSquareSize)) / kSquareSize;
@@ -133,16 +131,19 @@ return;
 	std::string string_coordinates = std::to_string(board_coord_x) + "," + std::to_string(board_coord_y);
 
 	client_.send(string_coordinates);
+	should_update_ = true;
 	update();
 }
 
 void ofApp::resignButtonPressed() {
 	client_.send("resign");
+	should_update_ = true;
 	update();
 }
 
 void ofApp::passButtonPressed() {
 	client_.send("pass");
+	should_update_ = true;
 	update();
 }
 
@@ -188,16 +189,16 @@ void ofApp::drawGoBoard(int size) {
 	}
 }
 
-void ofApp::drawBoardState(int board_size, string board_state)
+void ofApp::drawBoardState(int board_size)
 {
 	for (int i = 0; i < board_size; i++) {
 		for (int j = 0; j < board_size; j++) {
-			if (stoi(board_state.substr(i*board_size + j, 1)) == kBlackPlayer) {
+			if (board_state_[i][j] == kBlackPlayer) {
 				//Renders a black stone
 				ofSetColor(kBlackStoneRed, kBlackStoneGreen, kBlackStoneBlue);
 				ofDrawCircle(kBoardXCoordinate + (i + 1) * kSquareSize, kBoardYCoordinate + (j + 1) * kSquareSize, kStoneSize);
 			}
-			else if (stoi(board_state.substr(i*board_size + j, 1)) == kWhitePlayer) {
+			else if (board_state_[i][j] == kWhitePlayer) {
 				//Renders a white stone
 				ofSetColor(kWhiteStoneRed, kWhiteStoneGreen, kWhiteStoneBlue);
 				ofDrawCircle(kBoardXCoordinate + (i + 1) * kSquareSize, kBoardYCoordinate + (j + 1) * kSquareSize, kStoneSize);
