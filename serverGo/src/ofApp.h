@@ -32,7 +32,7 @@ private:
 		/*
 			Method that generates and sends the message that the server sends back to the client. Called 
 			every time update() is run. The message is sent in the following format:
-			<board_size>,<board_state>,<black captures>,<white captures>,<winner>,<resignation boolean>,
+			<board_state>,<black captures>,<white captures>,<winner>,<resignation boolean>,
 			<score difference>
 			Each aspect of the game is represented as a string, and are separated by a space.
 		*/

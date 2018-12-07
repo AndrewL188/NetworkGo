@@ -3,6 +3,7 @@
 //--------------------------------------------------------------
 void ofApp::setup(){
 	client_.setup("10.194.209.87", 1000);
+	ofSetFrameRate(60);
 
 	//Adding listeners to buttons
 	pass_button_.addListener(this, &ofApp::passButtonPressed);
@@ -22,11 +23,11 @@ void ofApp::setup(){
 //--------------------------------------------------------------
 void ofApp::update(){
 	
-	std::string string_received = client_.receive();
+	std::string string_received = client_.receiveRaw();
 	stringstream ssin(string_received);
 	
+	
 	//Finds board state
-
 	for (int i = 0; i < board_size_; i++) {
 		for (int j = 0; j < board_size_; j++) {
 			if (ssin.good()) {
@@ -131,19 +132,16 @@ void ofApp::mousePressed(int x, int y, int button){
 	std::string string_coordinates = std::to_string(board_coord_x) + "," + std::to_string(board_coord_y);
 
 	client_.send(string_coordinates);
-	should_update_ = true;
 	update();
 }
 
 void ofApp::resignButtonPressed() {
 	client_.send("resign");
-	should_update_ = true;
 	update();
 }
 
 void ofApp::passButtonPressed() {
 	client_.send("pass");
-	should_update_ = true;
 	update();
 }
 

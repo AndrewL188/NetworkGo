@@ -9,18 +9,11 @@ void ofApp::setup(){
 }
 
 //--------------------------------------------------------------
-void ofApp::update(){
-	
-	for (int i = 0; i < server_.getLastID(); i++) {
-		if (server_.isClientConnected(i)) {
-			std::cout << "Connected";
-		}
-	}
-	
-	
+void ofApp::update(){	
 	for (int i = 0; i < server_.getLastID(); i++) {
 		if (server_.isClientConnected(i)) {
 			string input = server_.receive(i);
+			
 			if (input == "pass") {
 				game_engine_.pass();
 			}
@@ -29,7 +22,7 @@ void ofApp::update(){
 				player_resigned_ = true;
 			}
 			//Player tries to play a move
-			else {
+			else if (input.find(",") != string::npos){
 				int comma_index = input.find(",");
 				int x_coord = std::stoi(input.substr(0, comma_index));
 				int y_coord = std::stoi(input.substr(comma_index + 1, input.length() - 1 - comma_index));
@@ -102,26 +95,28 @@ void ofApp::gotMessage(ofMessage msg){
 }
 
 void ofApp::createServerMessage(int client_number) {
-	server_.send(client_number, std::to_string(game_engine_.getBoardSize()));
 
-	std::string board_state;
-	for (int i = 0; i < game_engine_.getBoardSize() * game_engine_.getBoardSize(); i++) {
-		board_state += std::to_string(game_engine_.getFlatBoardState()[i]) + " ";
+	std::string string_to_send;
+	for (int i = 0; i < game_engine_.getBoardSize(); i++) {
+		for (int j = 0; j < game_engine_.getBoardSize(); j++) {
+			string_to_send += std::to_string(game_engine_.getBoardState()[i][j]) + " ";
+		}
 	}
-	server_.send(client_number, board_state);
 
-	server_.send(client_number, std::to_string(game_engine_.getBlackCaptures()));
-	server_.send(client_number, std::to_string(game_engine_.getWhiteCaptures()));
+	string_to_send += std::to_string(game_engine_.getBlackCaptures()) + " ";
+	string_to_send += std::to_string(game_engine_.getWhiteCaptures()) + " ";
 
-	server_.send(client_number, std::to_string(game_engine_.getWinner()));
+	string_to_send += std::to_string(game_engine_.getWinner()) + " ";
 
 	if (player_resigned_) {
-		server_.send(client_number, "true");
+		string_to_send += "1 ";
 	}
 	else {
-		server_.send(client_number, "false");
+		string_to_send += "0 ";
 	}
-	server_.send(client_number, std::to_string(game_engine_.getScoreDifference()));
+	string_to_send += std::to_string(game_engine_.getScoreDifference());
+
+	server_.send(client_number, string_to_send);
 
 }
 
