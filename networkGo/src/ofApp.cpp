@@ -3,7 +3,7 @@
 //--------------------------------------------------------------
 void ofApp::setup(){
 	client_.setup("10.194.209.87", 1000);
-	ofSetFrameRate(60);
+	ofSetFrameRate(10);
 
 	//Adding listeners to buttons
 	pass_button_.addListener(this, &ofApp::passButtonPressed);
@@ -191,6 +191,9 @@ void ofApp::drawBoardState(int board_size)
 {
 	for (int i = 0; i < board_size; i++) {
 		for (int j = 0; j < board_size; j++) {
+			if (i == 0 && j == 0) {
+				std::cout << board_state_[i][j];
+			}
 			if (board_state_[i][j] == kBlackPlayer) {
 				//Renders a black stone
 				ofSetColor(kBlackStoneRed, kBlackStoneGreen, kBlackStoneBlue);

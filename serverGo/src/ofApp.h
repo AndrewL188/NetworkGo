@@ -14,6 +14,11 @@ private:
 
 	public:
 		void setup();
+		/*
+		Method that is called every frame that attempt to receive messages from clients that are connected 
+		to the server. Will modify the state of the game engine depending on what message is received from 
+		the client.
+		*/
 		void update();
 		void draw();
 

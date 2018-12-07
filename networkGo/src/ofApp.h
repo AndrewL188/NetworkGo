@@ -55,7 +55,8 @@ class ofApp : public ofBaseApp{
 	public:
 		void setup();
 		/*
-		Called whenever the user performs an action (clicks a button or a part of the board)
+		Called every time the frame updates. Attempts to receive a message in the form of a string from
+		a server. Parses the string into segments that represent various aspects of the game.
 		*/
 		void update();
 		void draw();
