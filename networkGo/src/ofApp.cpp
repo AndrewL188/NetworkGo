@@ -220,12 +220,17 @@ void ofApp::drawCapturedStones(int black_captures, int white_captures) {
 void ofApp::drawWinScreen(int winner) {
 	font.loadFont("vag.ttf", 30, true, true);
 	ofSetColor(kBlackStoneRed, kBlackStoneGreen, kBlackStoneBlue);
+
+	string score_difference_string = std::to_string(score_difference_);
+	int decimal_index = score_difference_string.find(".");
+	score_difference_string = score_difference_string.substr(0, decimal_index + 2);
+
 	if (winner == kBlackPlayer && player_resigned_ == false) {
-		font.drawString("Black wins by " + std::to_string(score_difference_) +
+		font.drawString("Black wins by " + score_difference_string +
 			" points", 900, 250);
 	}
 	else if (winner == kWhitePlayer && player_resigned_ == false) {
-		font.drawString("White wins by " + std::to_string(score_difference_) +
+		font.drawString("White wins by " + score_difference_string +
 			" points", 900, 250);
 	}
 	else if (winner == kBlackPlayer && player_resigned_ == true) {
