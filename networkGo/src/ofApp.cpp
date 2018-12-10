@@ -135,8 +135,8 @@ void ofApp::mousePressed(int x, int y, int button){
 	int board_coord_x_int = (int)round(board_coord_x);
 	int board_coord_y_int = (int)round(board_coord_y);
 
-	std::string string_coordinates = std::to_string(board_coord_x) + "," + std::to_string(board_coord_y);
-
+	std::string string_coordinates = std::to_string(board_coord_x_int) + "," + std::to_string(board_coord_y_int);
+	cout << string_coordinates;
 	client_.send(string_coordinates);
 	update();
 }
@@ -222,11 +222,11 @@ void ofApp::drawWinScreen(int winner) {
 	font.loadFont("vag.ttf", 30, true, true);
 	ofSetColor(kBlackStoneRed, kBlackStoneGreen, kBlackStoneBlue);
 	if (winner == kBlackPlayer && player_resigned_ == false) {
-		font.drawString("Black wins by " + std::to_string(5) +
+		font.drawString("Black wins by " + std::to_string(score_difference_) +
 			" points", 900, 250);
 	}
 	else if (winner == kWhitePlayer && player_resigned_ == false) {
-		font.drawString("White wins by " + std::to_string(5) +
+		font.drawString("White wins by " + std::to_string(score_difference_) +
 			" points", 900, 250);
 	}
 	else if (winner == kBlackPlayer && player_resigned_ == true) {

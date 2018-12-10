@@ -295,7 +295,6 @@ void GoGameEngine::countScore() {
 	white_score_ += kKomi;
 
 	winner_ = (black_score_ > white_score_) ? BLACKPLAYER : WHITEPLAYER;
-
 }
 
 bool GoGameEngine::isTerritory(int current_color, vector<int>& border)
