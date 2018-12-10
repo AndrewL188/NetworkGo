@@ -2,7 +2,7 @@
 
 //--------------------------------------------------------------
 void ofApp::setup(){
-	client_.setup("10.194.209.87", 1000);
+	client_.setup("127.0.0.1", 1000);
 	ofSetFrameRate(60);
 
 	//Adding listeners to buttons
@@ -136,7 +136,6 @@ void ofApp::mousePressed(int x, int y, int button){
 	int board_coord_y_int = (int)round(board_coord_y);
 
 	std::string string_coordinates = std::to_string(board_coord_x_int) + "," + std::to_string(board_coord_y_int);
-	cout << string_coordinates;
 	client_.send(string_coordinates);
 	update();
 }

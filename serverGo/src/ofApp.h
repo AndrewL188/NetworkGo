@@ -10,6 +10,9 @@ private:
 	GoGameEngine game_engine_;
 	bool player_resigned_ = false;
 	const int kPortNumber = 1000;
+	const int kBlackClientNumber = 0;
+	const int kWhiteClientNumber = 1;
+	int player_turn_ = kBlackClientNumber;
 
 
 

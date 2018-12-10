@@ -10,28 +10,36 @@ void ofApp::setup() {
 
 //--------------------------------------------------------------
 void ofApp::update(){	
+	//Only two players should be able to play the go game
+	if (server_.getNumClients() != 2) {
+		return;
+	}
+
+
+
 	for (int i = 0; i < server_.getLastID(); i++) {
 		if (server_.isClientConnected(i)) {
 			string input = server_.receive(i);
 			
-			if (input == "pass") {
+			if (input == "pass" && i == player_turn_) {
 				game_engine_.pass();
+				player_turn_ = (player_turn_ == kBlackClientNumber) ? kWhiteClientNumber : kBlackClientNumber;
 			}
-			else if (input == "resign") {
+			else if (input == "resign" && i == player_turn_) {
 				game_engine_.resign();
 				player_resigned_ = true;
+				player_turn_ = (player_turn_ == kBlackClientNumber) ? kWhiteClientNumber : kBlackClientNumber;
 			}
 			//Player tries to play a move
-			else if (input.find(",") != string::npos){
+			else if (input.find(",") != string::npos && i == player_turn_){
 				int comma_index = input.find(",");
 				int x_coord = std::stoi(input.substr(0, comma_index));
 				int y_coord = std::stoi(input.substr(comma_index + 1, input.length() - 1 - comma_index));
 				game_engine_.playMove(x_coord, y_coord);
+				player_turn_ = (player_turn_ == kBlackClientNumber) ? kWhiteClientNumber : kBlackClientNumber;
 			}
 			createServerMessage(i);
 		}
-		
-		
 	}
 	
 	
