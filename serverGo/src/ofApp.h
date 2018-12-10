@@ -9,6 +9,7 @@ private:
 	ofxTCPServer server_;
 	GoGameEngine game_engine_;
 	bool player_resigned_ = false;
+	const int kPortNumber = 1000;
 
 
 

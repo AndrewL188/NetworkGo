@@ -3,7 +3,7 @@
 //--------------------------------------------------------------
 void ofApp::setup(){
 	client_.setup("10.194.209.87", 1000);
-	ofSetFrameRate(10);
+	ofSetFrameRate(60);
 
 	//Adding listeners to buttons
 	pass_button_.addListener(this, &ofApp::passButtonPressed);
@@ -24,6 +24,12 @@ void ofApp::setup(){
 void ofApp::update(){
 	
 	std::string string_received = client_.receiveRaw();
+	//Ensuring that the client received all the necessary data
+	if (string_received.find("#") == std::string::npos || string_received.find("@") == std::string::npos) {
+		return;
+	}
+	//If client received all data, remove the tag at the beginning of the message
+	string_received = string_received.substr(2);
 	stringstream ssin(string_received);
 	
 	
@@ -191,9 +197,6 @@ void ofApp::drawBoardState(int board_size)
 {
 	for (int i = 0; i < board_size; i++) {
 		for (int j = 0; j < board_size; j++) {
-			if (i == 0 && j == 0) {
-				std::cout << board_state_[i][j];
-			}
 			if (board_state_[i][j] == kBlackPlayer) {
 				//Renders a black stone
 				ofSetColor(kBlackStoneRed, kBlackStoneGreen, kBlackStoneBlue);

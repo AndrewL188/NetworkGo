@@ -1,8 +1,8 @@
 #include "ofApp.h"
 
 //--------------------------------------------------------------
-void ofApp::setup(){
-	server_.setup(1000);
+void ofApp::setup() {
+	server_.setup(kPortNumber);
 	if (server_.isConnected()) {
 		std::cout << "Connected" << endl;
 	}
@@ -96,7 +96,7 @@ void ofApp::gotMessage(ofMessage msg){
 
 void ofApp::createServerMessage(int client_number) {
 
-	std::string string_to_send;
+	std::string string_to_send = "\# ";
 	for (int i = 0; i < game_engine_.getBoardSize(); i++) {
 		for (int j = 0; j < game_engine_.getBoardSize(); j++) {
 			string_to_send += std::to_string(game_engine_.getBoardState()[i][j]) + " ";
@@ -114,7 +114,8 @@ void ofApp::createServerMessage(int client_number) {
 	else {
 		string_to_send += "0 ";
 	}
-	string_to_send += std::to_string(game_engine_.getScoreDifference());
+	string_to_send += std::to_string(game_engine_.getScoreDifference()) + " @";
+	
 
 	server_.send(client_number, string_to_send);
 
