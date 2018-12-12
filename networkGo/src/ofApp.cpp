@@ -22,7 +22,6 @@ void ofApp::setup(){
 
 //--------------------------------------------------------------
 void ofApp::update(){
-	
 	std::string string_received = client_.receiveRaw();
 	//Ensuring that the client received all the necessary data
 	if (string_received.find("#") == std::string::npos || string_received.find("@") == std::string::npos) {
@@ -32,35 +31,26 @@ void ofApp::update(){
 	string_received = string_received.substr(2);
 	stringstream ssin(string_received);
 	
-	
 	//Finds board state
 	for (int i = 0; i < board_size_; i++) {
 		for (int j = 0; j < board_size_; j++) {
 			if (ssin.good()) {
-				int temp;
-				ssin >> temp;
-				board_state_[i][j] = temp;
+				ssin >> board_state_[i][j];
 			}
 		}
 	}
 	//Finds black and white captures
 	
 	if (ssin.good()) {
-		int temp;
-		ssin >> temp;
-		black_captures_ = temp;
+		ssin >> black_captures_;
 	}
 	
 	if (ssin.good()) {
-		int temp;
-		ssin >> temp;
-		white_captures_ = temp;
+		ssin >> white_captures_;
 	}
 	//Finds winner
 	if (ssin.good()) {
-		int temp;
-		ssin >> temp;
-		winner_ = temp;
+		ssin >> winner_;
 	}
 	
 	//Finds whether or not player resigned
@@ -76,10 +66,9 @@ void ofApp::update(){
 	}
 
 	if (ssin.good()) {
-		double temp;
-		ssin >> temp;
-		score_difference_ = temp;
+		ssin >> score_difference_;
 	}
+
 	//Changes game state based on whether or not there is a winner
 	if (winner_ != kNoPlayer) {
 		current_state_ = GAME_OVER;

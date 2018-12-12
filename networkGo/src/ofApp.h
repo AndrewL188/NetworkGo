@@ -53,12 +53,20 @@ class ofApp : public ofBaseApp{
 
 
 	public:
+		/*
+		Called whenever an open frameworks project is run. Sets up a client, adds listeners to buttons,
+		adds buttons to a panel.
+		*/
 		void setup();
 		/*
 		Called every time the frame updates. Attempts to receive a message in the form of a string from
 		a server. Parses the string into segments that represent various aspects of the game.
 		*/
 		void update();
+		/*
+		Draws components in the window, using the helper draw methods below. What this method draws is based
+		on the game state enum, current_state_
+		*/
 		void draw();
 
 		void keyPressed(int key);
@@ -98,7 +106,7 @@ class ofApp : public ofBaseApp{
 		*/
 		void drawGoBoard(int size);
 		/*
-		Renders black and white stones onto the board based on the board state of the game engine
+		Renders black and white stones onto the board based on the board state received from the server
 		*/
 		void drawBoardState(int board_size);
 		/*
@@ -106,7 +114,7 @@ class ofApp : public ofBaseApp{
 		*/
 		void drawCapturedStones(int black_captures, int white_captures);
 		/*
-		Renders win screen
+		Renders win screen. Shows the winner of the game and the number of points he/she won by
 		*/
 		void drawWinScreen(int winner);
 		
