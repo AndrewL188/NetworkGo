@@ -41,10 +41,6 @@ void ofApp::update(){
 			createServerMessage(i);
 		}
 	}
-	
-	
-	
-
 }
 
 //--------------------------------------------------------------
@@ -124,12 +120,9 @@ void ofApp::createServerMessage(int client_number) {
 	}
 	string_to_send += std::to_string(game_engine_.getScoreDifference()) + " @";
 	
-
 	server_.send(client_number, string_to_send);
-
 }
 
 //--------------------------------------------------------------
 void ofApp::dragEvent(ofDragInfo dragInfo){ 
-
 }

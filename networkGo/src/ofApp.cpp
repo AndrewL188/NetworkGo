@@ -93,22 +93,18 @@ void ofApp::draw(){
 
 //--------------------------------------------------------------
 void ofApp::keyPressed(int key){
-
 }
 
 //--------------------------------------------------------------
 void ofApp::keyReleased(int key){
-
 }
 
 //--------------------------------------------------------------
 void ofApp::mouseMoved(int x, int y ){
-
 }
 
 //--------------------------------------------------------------
 void ofApp::mouseDragged(int x, int y, int button){
-	
 }
 
 //--------------------------------------------------------------
@@ -228,10 +224,8 @@ void ofApp::drawWinScreen(int winner) {
 	else if (winner == kWhitePlayer && player_resigned_ == true) {
 		font.drawString("White wins by resign", 900, 250);
 	}
-
 }
 
 //--------------------------------------------------------------
-void ofApp::dragEvent(ofDragInfo dragInfo){ 
-
+void ofApp::dragEvent(ofDragInfo dragInfo) { 
 }

@@ -95,6 +95,14 @@ public:
 	(or empty space) in the connected chain.
 	*/
 	std::vector<int> findChain(int row, int col);
+
+	/*
+	Helper method for findChain. Returns a bool indicating whether or not the specified coordinate should be
+	added to the chain of stones.
+	*/
+	bool isConnected(int row, int col, int current_color, std::vector<int> &chain);
+
+
 	/*
 	Finds the liberties of a chain of stones using the findChain method
 	*/

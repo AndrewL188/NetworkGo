@@ -17,7 +17,6 @@ GoGameEngine::GoGameEngine()
 			flat_board_state_.push_back(kEmpty);
 		}
 	}
-
 }
 
 GoGameEngine::GoGameEngine(int board_size)
@@ -131,29 +130,32 @@ std::vector<int> GoGameEngine::findChain(int row, int col)
 		int new_x = unflatten(nodes_to_visit.back())[0];
 		int new_y = unflatten(nodes_to_visit.back())[1];
 		nodes_to_visit.pop_back();
-		if (isOnBoard(new_x + 1, new_y) && board_state_[new_x + 1][new_y] == current_color &&
-			!contains(chain, flatten(new_x + 1, new_y))) {
+		if (isConnected(new_x + 1, new_y, current_color, chain)) {
 			chain.push_back(flatten(new_x + 1, new_y));
 			nodes_to_visit.push_back(flatten(new_x + 1, new_y));
 		}
-		if (isOnBoard(new_x - 1, new_y) && board_state_[new_x - 1][new_y] == current_color &&
-			!contains(chain, flatten(new_x - 1, new_y))) {
+		if (isConnected(new_x - 1, new_y, current_color, chain)) {
 			chain.push_back(flatten(new_x - 1, new_y));
 			nodes_to_visit.push_back(flatten(new_x - 1, new_y));
 		}
-		if (isOnBoard(new_x, new_y + 1) && board_state_[new_x][new_y + 1] == current_color &&
-			!contains(chain, flatten(new_x, new_y + 1))) {
+		if (isConnected(new_x, new_y + 1, current_color, chain)) {
 			chain.push_back(flatten(new_x, new_y + 1));
 			nodes_to_visit.push_back(flatten(new_x, new_y + 1));
 		}
-		if (isOnBoard(new_x, new_y - 1) && board_state_[new_x][new_y - 1] == current_color &&
-			!contains(chain, flatten(new_x, new_y - 1))) {
+		if (isConnected(new_x, new_y - 1, current_color, chain)) {
 			chain.push_back(flatten(new_x, new_y - 1));
 			nodes_to_visit.push_back(flatten(new_x, new_y - 1));
 		}
 	}
 	return chain;
 }
+
+bool GoGameEngine::isConnected(int row, int col, int current_color, std::vector<int>& chain) {	
+	return (isOnBoard(row, col) && board_state_[row][col] == current_color &&
+		!contains(chain, flatten(row, col)));
+}
+
+
 
 std::vector<int> GoGameEngine::findLiberties(int row, int col)
 {

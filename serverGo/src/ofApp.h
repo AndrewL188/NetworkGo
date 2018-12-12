@@ -14,8 +14,6 @@ private:
 	const int kWhiteClientNumber = 1;
 	int player_turn_ = kBlackClientNumber;
 
-
-
 	public:
 		void setup();
 		/*
@@ -43,7 +41,7 @@ private:
 			every time update() is run. The message is sent in the following format:
 			<board_state>,<black captures>,<white captures>,<winner>,<resignation boolean>,
 			<score difference>
-			Each aspect of the game is represented as a string, and are separated by a space.
+			Each aspect of the game is represented as a string, and are separated by spaces.
 		*/
 		void createServerMessage(int client_number);
 		
